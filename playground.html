@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playground — Sohin Santhosh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/playground.css">
+<script src="js/theme.js"></script>
+</head>
+<body>
+
+<div class="tr t-iris on cover instant" id="tr" aria-hidden="true">
+  <div class="p p1"></div>
+  <div class="word">Playground</div>
+</div>
+
+<div class="sub-header">
+  <a class="back" href="index.html" data-transition data-ttype="t-shutter" data-word="Sohin"><span class="arr">←</span> Back</a>
+  <span class="label">03 — Playground</span>
+</div>
+
+<div class="page-title-row">
+  <h1 class="page-title">Playground</h1>
+  <span class="page-count">(7 live experiments &amp; games — click to launch, or press ⌘K)</span>
+</div>
+
+<div class="pg-grid">
+  <button class="pg-cell" data-app="waves">
+    <span class="pg-cell-top"><span class="glyph">∿</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">Wave Shader</span><span class="pg-desc">Interactive sine field with live controls</span></span>
+  </button>
+  <button class="pg-cell" data-app="particles">
+    <span class="pg-cell-top"><span class="glyph">✦</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">Particle Field</span><span class="pg-desc">Physics sandbox — attract, repel, burst</span></span>
+  </button>
+  <button class="pg-cell" data-app="theme">
+    <span class="pg-cell-top"><span class="glyph">◐</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">Theme Engine</span><span class="pg-desc">Re-ink the entire portfolio — persists</span></span>
+  </button>
+  <button class="pg-cell" data-app="cmdk">
+    <span class="pg-cell-top"><span class="glyph">⌘</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">CmdK Menu</span><span class="pg-desc">Fuzzy command palette that runs this site</span></span>
+  </button>
+  <button class="pg-cell" data-app="ascii">
+    <span class="pg-cell-top"><span class="glyph">▞</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">ASCII Cam</span><span class="pg-desc">See yourself in text — 4 display modes</span></span>
+  </button>
+  <button class="pg-cell" data-app="runner">
+    <span class="pg-cell-top"><span class="glyph">◉</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">Ink Runner</span><span class="pg-desc">Endless jump — space or tap, beat your best</span></span>
+  </button>
+  <button class="pg-cell" data-app="pairs">
+    <span class="pg-cell-top"><span class="glyph">⧉</span><span class="pg-launch">↗</span></span>
+    <span><span class="pg-name">Pairs</span><span class="pg-desc">Memory match — 8 glyphs, fewest moves wins</span></span>
+  </button>
+</div>
+
+<footer>
+  <span class="label">Sohin Santhosh</span>
+  <span class="label">✦ made with care</span>
+</footer>
+
+<!-- Experiment modal -->
+<div class="pg-modal" id="pgModal" hidden>
+  <div class="pg-modal-bar">
+    <span class="label" id="pgTitle">—</span>
+    <button class="pg-btn" id="pgClose">✕ Close</button>
+  </div>
+  <div class="pg-stage" id="pgStage"></div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/playground.js"></script>
+<script src="js/cursor.js"></script>
+</body>
+</html>

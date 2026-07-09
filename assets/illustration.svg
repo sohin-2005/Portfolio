@@ -1,0 +1,41 @@
+<svg viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- lightbulb -->
+  <circle cx="292" cy="38" r="13" stroke="#111" stroke-width="3"/>
+  <path d="M287 51 h10 M288 57 h8" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+  <path d="M292 12 v6 M312 20 l-4 4 M272 20 l4 4" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- plant leaves behind bench -->
+  <path d="M150 120 C138 84 150 60 168 48 C170 76 164 100 156 118" fill="#111"/>
+  <path d="M170 118 C176 88 194 72 214 68 C204 92 188 110 176 120" fill="#111"/>
+  <!-- raised arm pointing up -->
+  <path d="M236 96 C244 80 252 68 258 56" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <path d="M258 56 l4 -12" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  <!-- head -->
+  <circle cx="232" cy="102" r="15" fill="#111"/>
+  <!-- glasses hint -->
+  <path d="M222 100 h9 m4 0 h9" stroke="#ECECEC" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- torso reclining -->
+  <path d="M228 116 C210 128 196 142 186 158 L222 176 C236 162 244 146 246 128 Z" fill="#111"/>
+  <!-- laptop -->
+  <rect x="238" y="140" width="52" height="34" rx="3" transform="rotate(18 238 140)" fill="#111"/>
+  <path d="M232 178 l64 10" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  <!-- legs crossed -->
+  <path d="M188 158 C168 168 148 172 128 170" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <path d="M128 170 C120 178 116 188 116 198" stroke="#111" stroke-width="8" stroke-linecap="round"/>
+  <path d="M196 170 C176 184 158 192 140 196" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+  <!-- shoes -->
+  <path d="M104 198 h22 v-8" stroke="#111" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M126 200 h20" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <!-- bench -->
+  <path d="M150 208 h150" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+  <path d="M170 208 v30 M280 208 v30" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+  <path d="M158 238 h24 M268 238 h24" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <!-- cat -->
+  <path d="M78 238 c0 -14 8 -24 18 -24 c10 0 18 10 18 24 z" fill="#111"/>
+  <path d="M88 216 l-3 -9 6 4 M104 216 l3 -9 -6 4" fill="#111" stroke="#111" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M114 232 c8 -2 12 -10 8 -16" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  <!-- ground dots -->
+  <circle cx="60" cy="244" r="2" fill="#111"/>
+  <circle cx="330" cy="240" r="2" fill="#111"/>
+  <circle cx="310" cy="120" r="2" fill="#111"/>
+  <circle cx="130" cy="130" r="2" fill="#111"/>
+</svg>

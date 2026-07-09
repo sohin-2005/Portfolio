@@ -1,0 +1,298 @@
+/* ============================================================
+   base.css — variables, reset, header, footer, shutter
+   ============================================================ */
+
+:root {
+  --bg: rgb(236, 236, 236);
+  --bg-rgb: 236, 236, 236;
+  --ink: rgb(17, 17, 17);
+  --ink-rgb: 17, 17, 17;
+  --serif: 'Playfair Display', serif;
+  --sans: 'Manrope', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--ink); color: var(--bg); }
+
+a { color: inherit; text-decoration: none; cursor: pointer; }
+
+/* ---------- Type utilities ---------- */
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.micro {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 58%, var(--bg));
+}
+
+/* ---------- Home header ---------- */
+header.home-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 28px 40px 0;
+}
+.header-left { display: flex; gap: 12px; align-items: flex-start; max-width: 220px; }
+.asterisk { font-size: 18px; line-height: 1; animation: spin 14s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logo {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+.logo sup { font-size: 9px; font-weight: 600; }
+.header-right { text-align: right; }
+
+/* ---------- Sub-page header ---------- */
+.sub-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 40px;
+}
+.back {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.back .arr { transition: transform 0.3s ease; display: inline-block; }
+.back:hover .arr { transform: translateX(-5px); }
+
+/* ---------- Page title ---------- */
+.page-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3vw;
+  padding: 5vh 40px 0;
+  flex-wrap: wrap;
+}
+.page-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(60px, 11vw, 160px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.page-count {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(16px, 2vw, 26px);
+  color: color-mix(in srgb, var(--ink) 65%, var(--bg));
+}
+
+/* ---------- Footer ---------- */
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+/* ============================================================
+   Page transitions — one overlay (#tr), four variants:
+   t-shutter  horizontal halves break through the middle (Home/Works)
+   t-splitv   vertical panels close from the edges       (About)
+   t-iris     black circle expands from the center       (Playground)
+   t-blinds   five staggered vertical bars               (Contact)
+   ============================================================ */
+.tr {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  visibility: hidden;
+}
+.tr.on { visibility: visible; pointer-events: all; }
+.tr .p { position: absolute; background: var(--ink); }
+.tr .word {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(40px, 7vw, 90px);
+  color: var(--bg);
+  opacity: 0;
+  transition: opacity 0.3s ease 0.35s;
+  white-space: nowrap;
+}
+.tr.cover .word { opacity: 1; }
+.tr.reveal .word { opacity: 0; transition: opacity 0.2s ease; }
+.tr.instant .p, .tr.instant .word { transition: none !important; }
+
+/* --- shutter: halves meet at the middle --- */
+.t-shutter .p {
+  left: 0; width: 100%; height: 50.5%;
+  transform: scaleY(0);
+  transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.t-shutter .p1 { top: 0; transform-origin: bottom; }
+.t-shutter .p2 { bottom: 0; transform-origin: top; }
+.t-shutter.cover .p { transform: scaleY(1); }
+
+/* --- splitv: vertical panels close from left & right edges --- */
+.t-splitv .p {
+  top: 0; height: 100%; width: 50.5%;
+  transform: scaleX(0);
+  transition: transform 0.65s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.t-splitv .p1 { left: 0; transform-origin: left; }
+.t-splitv .p2 { right: 0; transform-origin: right; }
+.t-splitv.cover .p { transform: scaleX(1); }
+
+/* --- iris: circle blooms from the center --- */
+.t-iris .p {
+  inset: 0; width: 100%; height: 100%;
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.t-iris.cover .p { clip-path: circle(75% at 50% 50%); }
+
+/* --- transition word: tracking-in for a more editorial feel --- */
+.tr.cover .word { animation: wordTrack 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both; }
+@keyframes wordTrack {
+  from { letter-spacing: 0.4em; opacity: 0; }
+  to { letter-spacing: 0.02em; opacity: 1; }
+}
+
+/* --- page enter / leave: content lifts under the shutters ---
+   html.boot is set by theme.js (JS present), html.entered by main.js
+   after the overlay opens — so without JS nothing is ever hidden. */
+html.boot body > :where(:not(.tr, #particles, .pg-modal)) {
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.boot:not(.entered) body > :where(:not(.tr, #particles, .pg-modal)) {
+  opacity: 0;
+  transform: translateY(18px);
+}
+html.leaving body > :where(:not(.tr, #particles, .pg-modal)) {
+  opacity: 0.3;
+  transform: translateY(-14px);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ---------- Custom cursor: viewfinder ----------
+   A precision crosshair rides the pointer with zero lag, backed
+   by two faint full-screen hairlines (drafting-table feel). Hover
+   anything interactive and four corner brackets fly out and frame
+   it, like a camera locking focus. Click = crosshair pinch. */
+body.custom-cursor, body.custom-cursor * { cursor: none !important; }
+body.custom-cursor input, body.custom-cursor textarea { cursor: text !important; }
+
+.xh-line {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 297;
+  pointer-events: none;
+  background: var(--ink);
+  opacity: 0.08;
+  transition: opacity 0.3s ease;
+}
+.xh-v { width: 1px; height: 100vh; }
+.xh-h { height: 1px; width: 100vw; }
+
+.xh-core {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 300;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.25s ease;
+}
+.xh-plus {
+  display: block;
+  position: relative;
+  width: 15px; height: 15px;
+  margin: -7.5px 0 0 -7.5px;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.xh-plus::before, .xh-plus::after {
+  content: "";
+  position: absolute;
+  background: var(--ink);
+}
+.xh-plus::before { left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -0.75px; }
+.xh-plus::after { top: 0; bottom: 0; left: 50%; width: 1.5px; margin-left: -0.75px; }
+body.xh-hov .xh-plus { transform: rotate(45deg) scale(1.2); }
+body.xh-down .xh-plus { transform: rotate(45deg) scale(0.55); }
+
+/* focus frame: four corner brackets that wrap the hovered element */
+.xh-frame {
+  position: fixed;
+  z-index: 299;
+  pointer-events: none;
+  opacity: 0;
+  transition: top 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              left 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.2s ease;
+}
+.xh-frame.on { opacity: 1; }
+.xh-frame span {
+  position: absolute;
+  width: 13px; height: 13px;
+  border: 0 solid var(--ink);
+}
+.xh-frame .c1 { top: 0; left: 0; border-top-width: 1.5px; border-left-width: 1.5px; }
+.xh-frame .c2 { top: 0; right: 0; border-top-width: 1.5px; border-right-width: 1.5px; }
+.xh-frame .c3 { bottom: 0; left: 0; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.xh-frame .c4 { bottom: 0; right: 0; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+body.xh-down .xh-frame { transform: scale(0.985); }
+
+.cursor-off .xh-core, .cursor-off .xh-line, .cursor-off .xh-frame { opacity: 0 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xh-line { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr.cover .word { animation: none; }
+  html.boot body > :where(:not(.tr, #particles, .pg-modal)) { opacity: 1; transform: none; transition: none; }
+}
+
+/* --- blinds: staggered vertical bars sweep down --- */
+.t-blinds .p {
+  top: 0; height: 100%; width: 20.6%;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.t-blinds .p1 { left: 0; }
+.t-blinds .p2 { left: 20%; transition-delay: 0.07s; }
+.t-blinds .p3 { left: 40%; transition-delay: 0.14s; }
+.t-blinds .p4 { left: 60%; transition-delay: 0.21s; }
+.t-blinds .p5 { left: 80%; transition-delay: 0.28s; }
+.t-blinds.cover .p { transform: scaleY(1); }
+.t-blinds .word { transition-delay: 0.55s; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 820px) {
+  header.home-header, .sub-header, .page-title-row { padding-left: 20px; padding-right: 20px; }
+  .header-right { display: none; }
+  footer { padding: 20px; }
+}

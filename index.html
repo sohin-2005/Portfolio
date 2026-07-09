@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sohin Santhosh — Folio Vol.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
+<script src="js/theme.js"></script>
+</head>
+<body>
+
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<div class="tr t-shutter on cover instant" id="tr" aria-hidden="true">
+  <div class="p p1"></div>
+  <div class="p p2"></div>
+  <div class="word">Sohin</div>
+</div>
+
+<header class="home-header">
+  <div class="header-left">
+    <span class="asterisk">✳</span>
+    <span class="label">Open for any collaborations and offers</span>
+  </div>
+  <div class="header-right label">Folio<br>Vol.1—</div>
+</header>
+
+<section class="hero" aria-label="Sohin">
+  <span class="first" id="heroName" title="click me">Sohin</span>
+  <p class="hero-sub micro">( software engineer — kochi, india )</p>
+</section>
+
+<nav class="main-nav">
+  <a class="nav-item" href="works.html" data-transition data-ttype="t-shutter" data-word="Works">
+    <span class="micro">01</span><span class="name">Works</span>
+  </a>
+  <a class="nav-item" href="about.html" data-transition data-ttype="t-splitv" data-word="About">
+    <span class="micro">02</span><span class="name">About</span>
+  </a>
+  <a class="nav-item" href="playground.html" data-transition data-ttype="t-iris" data-word="Playground">
+    <span class="micro">03</span><span class="name">Playground</span>
+  </a>
+  <a class="nav-item" href="contact.html" data-transition data-ttype="t-blinds" data-word="Contact">
+    <span class="micro">04</span><span class="name">Contact</span>
+  </a>
+</nav>
+
+<section class="bottom">
+  <div class="blurb">
+    <span class="star">✦</span>
+    <p>Sohin Santhosh (he/him) is a computer science undergrad &amp; full-stack developer from Kochi, India.</p>
+  </div>
+  <div class="illus">
+    <svg class="scene" viewBox="0 0 460 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: engineer working at a desk, with a cat, a plant, and a light bulb you can click">
+      <defs>
+        <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFDFA3" stop-opacity="0.95"/>
+          <stop offset="55%" stop-color="#FFC463" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#FFC463" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gBulb" cx="50%" cy="42%" r="60%">
+          <stop offset="0%" stop-color="#FFF4D6"/>
+          <stop offset="100%" stop-color="#FFB84D"/>
+        </radialGradient>
+      </defs>
+
+      <!-- floor -->
+      <line x1="36" y1="284" x2="424" y2="284" stroke="rgba(17,17,17,0.25)" stroke-width="2" stroke-linecap="round"/>
+
+      <!-- plant -->
+      <g class="plant">
+        <path class="leaf l1" d="M84 248 C68 214 70 178 86 152 C100 180 98 216 84 248 Z" fill="#111"/>
+        <path class="leaf l2" d="M84 248 C58 232 44 206 46 178 C70 194 82 220 84 248 Z" fill="#111"/>
+        <path class="leaf l3" d="M86 248 C112 230 124 204 120 178 C98 194 88 220 86 248 Z" fill="#111"/>
+        <rect x="58" y="246" width="52" height="8" rx="3" fill="#111"/>
+        <path d="M63 254 h42 l-5 30 h-32 Z" fill="#111"/>
+      </g>
+
+      <!-- cat -->
+      <g class="cat">
+        <path class="tail" d="M150 282 C136 278 128 266 134 254" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+        <path d="M150 284 C150 264 160 252 172 252 C184 252 194 264 194 284 Z" fill="#111"/>
+        <path d="M178 239 L174 228 L183 233 Z" fill="#111"/>
+        <path d="M193 239 L197 228 L188 233 Z" fill="#111"/>
+        <circle cx="186" cy="246" r="11" fill="#111"/>
+        <g class="eyes">
+          <circle cx="182" cy="245" r="1.6" fill="#ECECEC"/>
+          <circle cx="190" cy="245" r="1.6" fill="#ECECEC"/>
+        </g>
+      </g>
+
+      <!-- desk -->
+      <rect x="120" y="200" width="230" height="10" rx="5" fill="#111"/>
+      <rect x="136" y="210" width="9" height="68" rx="4" fill="#111"/>
+      <rect x="325" y="210" width="9" height="68" rx="4" fill="#111"/>
+      <rect x="126" y="278" width="29" height="6" rx="3" fill="#111"/>
+      <rect x="315" y="278" width="29" height="6" rx="3" fill="#111"/>
+
+      <!-- coffee mug + steam -->
+      <path class="steam s1" d="M181 178 q-3 -6 0 -12" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+      <path class="steam s2" d="M188 178 q3 -6 0 -12" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="194" cy="191" r="4.5" stroke="#111" stroke-width="3"/>
+      <rect x="176" y="184" width="16" height="16" rx="2" fill="#111"/>
+
+      <!-- laptop -->
+      <rect x="210" y="146" width="58" height="48" rx="5" fill="#111"/>
+      <rect x="215" y="151" width="48" height="34" rx="2" fill="#ECECEC"/>
+      <g fill="#111" opacity="0.85">
+        <rect class="cl cl1" x="219" y="156" width="26" height="3.5" rx="1.75"/>
+        <rect class="cl cl2" x="219" y="163" width="36" height="3.5" rx="1.75"/>
+        <rect class="cl cl3" x="219" y="170" width="20" height="3.5" rx="1.75"/>
+        <rect class="cl cl4" x="219" y="177" width="31" height="3.5" rx="1.75"/>
+      </g>
+      <rect x="206" y="194" width="66" height="6" rx="3" fill="#111"/>
+
+      <!-- chair -->
+      <rect x="346" y="152" width="9" height="62" rx="4.5" fill="#111"/>
+      <rect x="294" y="210" width="56" height="9" rx="4.5" fill="#111"/>
+      <rect x="318" y="219" width="8" height="58" fill="#111"/>
+      <rect x="298" y="277" width="48" height="7" rx="3.5" fill="#111"/>
+
+      <!-- person -->
+      <g class="person">
+        <path d="M304 204 L274 212" stroke="#111" stroke-width="11" stroke-linecap="round"/>
+        <path d="M274 212 L271 278" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+        <rect x="256" y="277" width="26" height="7" rx="3.5" fill="#111"/>
+        <rect x="309" y="136" width="14" height="20" rx="5" fill="#111"/>
+        <rect x="298" y="150" width="44" height="60" rx="18" fill="#111"/>
+        <path d="M306 158 L286 180" stroke="#111" stroke-width="10" stroke-linecap="round"/>
+        <g class="armF">
+          <path d="M286 180 L266 192" stroke="#111" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="264" cy="193" r="5.5" fill="#111"/>
+        </g>
+        <g class="headG">
+          <circle cx="316" cy="126" r="17" fill="#111"/>
+          <path d="M303 124 h9 m4 0 h9" stroke="#ECECEC" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+      </g>
+
+      <!-- light bulb (click to toggle) -->
+      <g id="bulb" tabindex="0" role="button" aria-label="Toggle the light bulb" aria-pressed="false">
+        <title>Click to switch the light on</title>
+        <circle class="halo" cx="385" cy="64" r="38" fill="url(#gGlow)"/>
+        <g class="rays">
+          <line x1="385" y1="42" x2="385" y2="33"/>
+          <line x1="369" y1="48" x2="363" y2="42"/>
+          <line x1="401" y1="48" x2="407" y2="42"/>
+          <line x1="362" y1="64" x2="353" y2="64"/>
+          <line x1="408" y1="64" x2="417" y2="64"/>
+        </g>
+        <circle class="glass" cx="385" cy="64" r="16" fill="#ECECEC" stroke="#111" stroke-width="3"/>
+        <path class="fil" d="M378 70 q7 -9 14 0" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+        <rect x="379" y="80" width="12" height="4" rx="2" fill="#111"/>
+        <rect x="380.5" y="86" width="9" height="3" rx="1.5" fill="#111"/>
+        <rect x="383" y="90" width="5" height="3" rx="1.5" fill="#111"/>
+      </g>
+    </svg>
+  </div>
+  <div class="blurb">
+    <span class="star">✦</span>
+    <p>Curious about machine learning, data analytics and fintech — building beautiful digital experiences.</p>
+  </div>
+</section>
+
+<p class="caption">Just an ordinary engineer. From code with love. <span class="scroll-hint">↓ keep scrolling</span></p>
+
+<!-- marquee band -->
+<div class="band" aria-hidden="true">
+  <div class="band-track">
+    <span>Full-stack Developer</span><em>✦</em><i>machine learning</i><em>✦</em>
+    <span>Data Analytics</span><em>✦</em><i>fintech</i><em>✦</em>
+    <span>Creative Code</span><em>✦</em><i>pixel care</i><em>✦</em>
+    <span>Full-stack Developer</span><em>✦</em><i>machine learning</i><em>✦</em>
+    <span>Data Analytics</span><em>✦</em><i>fintech</i><em>✦</em>
+    <span>Creative Code</span><em>✦</em><i>pixel care</i><em>✦</em>
+  </div>
+</div>
+
+<!-- margin notes: rotating quotations -->
+<section class="quotes reveal">
+  <span class="micro">Margin Notes — from the bookshelf</span>
+  <blockquote class="quote-text" id="quoteText">“ ”</blockquote>
+  <div class="quote-author micro" id="quoteAuthor">—</div>
+  <div class="quote-dots" id="quoteDots"></div>
+</section>
+
+<!-- principles -->
+<section class="principles">
+  <div class="principle reveal">
+    <span class="micro">01 — Craft</span>
+    <h3>Details are the product.</h3>
+    <p>The last 5% — easing curves, empty states, error copy — is where software stops feeling like software.</p>
+  </div>
+  <div class="principle reveal">
+    <span class="micro">02 — Clarity</span>
+    <h3>Code is read far more than it is written.</h3>
+    <p>I optimize for the next person in the file. Usually that person is me, three months later, at 2am.</p>
+  </div>
+  <div class="principle reveal">
+    <span class="micro">03 — Curiosity</span>
+    <h3>Play is research.</h3>
+    <p>The playground on this site isn't decoration — half of what I ship started as an experiment that refused to stay one.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta reveal">
+  <span class="micro">Have an idea?</span>
+  <a class="cta-link" href="contact.html" data-transition data-ttype="t-blinds" data-word="Contact">Let's build something <span class="cta-arr">→</span></a>
+</section>
+
+<footer>
+  <span class="label">Sohin — Folio Vol.1</span>
+  <span class="label">✦ made with care</span>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/cursor.js"></script>
+</body>
+</html>
