@@ -9,7 +9,7 @@
 
 (function () {
   const THEMES = {
-    paper: { label: 'Paper',    bg: rgb(236, 236, 236), ink: '#111111' },
+    paper: { label: 'Paper',    bg: '#ECECEC', ink: '#111111' },
     noir:  { label: 'Noir',     bg: '#121212', ink: '#EDEDED' },
     sage:  { label: 'Sage',     bg: '#E3E9E0', ink: '#1C2620' },
     sand:  { label: 'Sand',     bg: '#EAE2D0', ink: '#221A0E' },
@@ -18,7 +18,7 @@
     forest:{ label: 'Midnight', bg: '#101613', ink: '#D8E6DC' },
     cream: { label: 'Cream',    bg: '#f4efe3', ink: '#1F1B12' },
    };
-z
+
   function rgbOf(hex) {
     const n = parseInt(hex.slice(1), 16);
     return ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255);
