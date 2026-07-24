@@ -4,6 +4,16 @@
    screenshots, and a demo-video slot with graceful placeholder.
    Real screenshots/videos can replace the generated art by
    dropping files into assets/projects/ (see video slot hint).
+
+   REAL SCREENSHOTS: drop files named like this and they'll be
+   used automatically — any project without a matching file just
+   keeps showing its generated wireframe, nothing breaks.
+     assets/projects/<slug>-cover.jpg   (big hero shot, ~1200x520)
+     assets/projects/<slug>-1.jpg       (first gallery shot, ~1200x480)
+     assets/projects/<slug>-2.jpg       (second gallery shot, ~590x400)
+     assets/projects/<slug>-3.jpg       (third gallery shot, ~590x400)
+   e.g. for Audixa: assets/projects/audixa-cover.jpg, audixa-1.jpg,
+   audixa-2.jpg, audixa-3.jpg
    ============================================================ */
 
 (function () {
@@ -37,16 +47,16 @@
       shots: ['Recovery body map', 'Weekly plan generator', 'Session tracker'],
     },
     bubble: {
-      name: 'Bubble Detection', cat: 'Financial ML System', year: '3 months · team of 4', role: 'UI/UX Developer',
+      name: 'Financial Bubble Detection', cat: 'Financial ML System', year: '3 months · team of 4', role: 'UI/UX Developer',
       stack: 'Python · Scikit-learn · FinBERT · FastAPI · PostgreSQL · Streamlit', type: 'chart',
       overview: [
-        'A financial bubble detection system that combines market data with news sentiment to predict bubble and crash probabilities — turning two very different signals into one early-warning view.',
-        'Built with a team of four over three months. I owned the UI/UX: the Streamlit interface that turns model output into probabilities, signals and explanations an analyst can actually read.',
+        'End-to-end ML pipeline and live monitoring dashboard for detecting bubble and crash risk in the Nifty 50 index. It combines lagged price-based features — rolling Z-scores, momentum, volatility ratios, skewness and kurtosis — with FinBERT news sentiment and macro context.',
+        'The deployed dashboard turns the model into an at-a-glance risk read, surfacing real-time RSI, MACD, a composite sentiment index, and macro indicators like GDP growth, CPI inflation and the repo rate alongside the classifier output.',
       ],
-      challenge: 'Bubbles are obvious in hindsight and invisible in the moment. Price action alone lags; sentiment alone is noisy. The system needed to fuse both into a probability an analyst can trust.',
-      solution: 'A hybrid model combining Z-score and PSY-based bubble indicators on market data with FinBERT news sentiment, stacked into an ensemble classifier — reaching over 90% classification performance, served through FastAPI and visualized in Streamlit.',
+      challenge: 'Traditional bubble detectors often rely on statistical anomalies that do not always line up with real crashes, and time-series models are easy to break with look-ahead bias if rolling windows or train/test splits are handled incorrectly.',
+      solution: 'Temporal leakage was fixed by shifting all market and sentiment features by one day before rolling windows were computed, replacing shuffled splits with a strict date-based split, and redefining labels around the 60 days preceding a real 30%+ drawdown. Class weighting handled the rare-event imbalance, and the held-out temporal evaluation produced XGBoost F1 0.918 and Random Forest F1 0.883.',
       stats: [
-        { n: '90%+', l: 'classification performance' }, { n: '2', l: 'signal sources fused' }, { n: '4', l: 'person team' },
+        { n: '0.918', l: 'XGBoost F1' }, { n: '0.883', l: 'Random Forest F1' }, { n: 'SAFE', l: 'current market read' },
       ],
       shots: ['Probability dashboard', 'Sentiment signals', 'Model performance'],
     },
@@ -223,6 +233,20 @@
   }
 
   /* ============================================================
+     Real screenshot loader — tries a real image first, falls
+     back to the generated wireframe if the file is missing.
+     Mirrors the video slot's real-file-first-then-placeholder
+     pattern below.
+     ============================================================ */
+  function addShot(container, src, type, seed, W, H) {
+    const img = new Image();
+    img.alt = '';
+    img.onload = () => container.appendChild(img);
+    img.onerror = () => container.appendChild(shot(type, seed, W, H));
+    img.src = src;
+  }
+
+  /* ============================================================
      Populate the page
      ============================================================ */
   document.title = data.name + ' — Sohin Santhosh';
@@ -240,7 +264,7 @@
     meta.appendChild(d);
   });
 
-  document.getElementById('pjCover').appendChild(shot(data.type, idx * 97 + 13, 1200, 520));
+  addShot(document.getElementById('pjCover'), 'assets/projects/' + slug + '-cover.jpg', data.type, idx * 97 + 13, 1200, 520);
 
   function paras(id, arr) {
     const box = document.getElementById(id);
@@ -268,7 +292,8 @@
   data.shots.forEach((cap, i) => {
     const d = document.createElement('div');
     d.className = 'pj-shot';
-    d.appendChild(shot(data.type, idx * 97 + 31 * (i + 1), i === 0 ? 1200 : 590, i === 0 ? 480 : 400));
+    const W = i === 0 ? 1200 : 590, H = i === 0 ? 480 : 400;
+    addShot(d, 'assets/projects/' + slug + '-' + (i + 1) + '.png', data.type, idx * 97 + 31 * (i + 1), W, H);
     const c = document.createElement('span');
     c.className = 'cap';
     c.textContent = cap;

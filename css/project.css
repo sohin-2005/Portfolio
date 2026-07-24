@@ -26,6 +26,11 @@
   border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
 }
 .pj-cover svg { display: block; width: 100%; height: auto; }
+.pj-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 /* generated wireframes are drawn in currentColor + .bgf/.bgs,
    so they re-ink with the active theme */
@@ -87,6 +92,11 @@
 .pj-shot { border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); position: relative; }
 .pj-shot:first-child { grid-column: 1 / -1; }
 .pj-shot svg { display: block; width: 100%; height: auto; }
+.pj-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .pj-shot .cap {
   position: absolute;
   left: 0; bottom: -1px;
