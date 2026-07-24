@@ -307,7 +307,13 @@
   video.controls = true;
   video.preload = 'metadata';
   const srcEl = document.createElement('source');
-  srcEl.src = 'assets/projects/' + slug + '.mp4';
+const videoUrls = {
+  audixa: "https://res.cloudinary.com/axwfqbuk/video/upload/v1784921981/audixa_heujcm.mov",
+  fettle: "https://res.cloudinary.com/axwfqbuk/video/upload/v1784922102/fettle_rttb7g.mp4",
+  bubble: "https://res.cloudinary.com/axwfqbuk/video/upload/v1784921980/bubble_mnllcx.mov",
+};
+
+srcEl.src = videoUrls[slug] || "";
   srcEl.type = 'video/mp4';
   video.appendChild(srcEl);
   srcEl.addEventListener('error', () => {
