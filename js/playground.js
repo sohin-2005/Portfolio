@@ -342,12 +342,15 @@
     let sel = 0, results = [];
 
     const commands = [
-      { ic: 'H', label: 'Go to Home', hint: 'nav', run: () => window.__goPage('index.html', 't-shutter', 'Sohin') },
-      { ic: 'W', label: 'Go to Works', hint: 'nav', run: () => window.__goPage('works.html', 't-shutter', 'Works') },
-      { ic: 'A', label: 'Go to About', hint: 'nav', run: () => window.__goPage('about.html', 't-splitv', 'About') },
-      { ic: 'C', label: 'Go to Contact', hint: 'nav', run: () => window.__goPage('contact.html', 't-blinds', 'Contact') },
+      /* Works, About and Contact are sections of the dashboard
+         now, so these are deep links into it rather than four
+         separate documents. */
+      { ic: 'H', label: 'Go to Home', hint: 'nav', run: () => { location.href = 'index.html'; } },
+      { ic: 'W', label: 'Go to Works', hint: 'nav', run: () => { location.href = 'index.html#works'; } },
+      { ic: 'A', label: 'Go to About', hint: 'nav', run: () => { location.href = 'index.html#about'; } },
+      { ic: 'C', label: 'Go to Contact', hint: 'nav', run: () => { location.href = 'index.html#contact'; } },
       { ic: '∿', label: 'Open Wave Shader', hint: 'app', run: () => openApp('waves') },
-      { ic: '✦', label: 'Open Particle Field', hint: 'app', run: () => openApp('particles') },
+      { ic: '∴', label: 'Open Particle Field', hint: 'app', run: () => openApp('particles') },
       { ic: '◐', label: 'Open Theme Engine', hint: 'app', run: () => openApp('theme') },
       { ic: '▞', label: 'Open ASCII Cam', hint: 'app', run: () => openApp('ascii') },
       { ic: '◉', label: 'Play Ink Runner', hint: 'game', run: () => openApp('runner') },
@@ -600,7 +603,7 @@
       squash: 0,
     };
     const R = 11;
-    const GLYPHS = ['✦', '¶', '§', '†'];
+    const GLYPHS = ['‡', '¶', '§', '†'];
     function groundY() { return h - 64; }
 
     function reset() {
@@ -750,7 +753,9 @@
 
     const grid = stage.querySelector('#prGrid');
     const winEl = stage.querySelector('#prWin');
-    const GLYPHS = ['∿', '✦', '◐', '⌘', '▞', '✳', '†', '§'];
+    /* eight distinct glyphs: the deck is this list twice over,
+       and the win test compares against its length */
+    const GLYPHS = ['∿', '∴', '◐', '⌘', '▞', '✳', '†', '§'];
     let first = null, lock = false, moves = 0, matched = 0, t0 = 0, timer = 0;
     let bestMoves = 0;
     try { bestMoves = parseInt(localStorage.getItem('sohin-pairs-best') || '0', 10); } catch (e) { /* private mode */ }
@@ -825,7 +830,7 @@
      ============================================================ */
   const APPS = {
     waves: { title: '∿ Wave Shader', mount: mountWaves },
-    particles: { title: '✦ Particle Field', mount: mountParticles },
+    particles: { title: '∴ Particle Field', mount: mountParticles },
     theme: { title: '◐ Theme Engine', mount: mountTheme },
     cmdk: { title: '⌘ CmdK Menu', mount: mountCmdk },
     ascii: { title: '▞ ASCII Cam', mount: mountAscii },

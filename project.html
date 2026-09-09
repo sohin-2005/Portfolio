@@ -1,83 +1,63 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Project — Sohin Santhosh</title>
+<meta name="description" content="A project by Sohin Santhosh — full case study.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/scenes.css">
+<link rel="stylesheet" href="css/dash.css">
 <link rel="stylesheet" href="css/project.css">
+<link rel="stylesheet" href="css/route.css">
+<link rel="stylesheet" href="css/ambient.css">
+<link rel="stylesheet" href="css/flora.css">
 <script src="js/theme.js"></script>
+<script src="js/leaves.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
+<body data-page="project">
 
-<div class="tr t-shutter on cover instant" id="tr" aria-hidden="true">
-  <div class="p p1"></div>
-  <div class="p p2"></div>
-  <div class="word" id="trWord"></div>
-</div>
+<nav class="rail" aria-label="Sections">
+  <a class="rail-link" href="projects.html" aria-current="page"><span class="rail-tick"></span><span class="rail-name">Projects</span></a>
+  <a class="rail-link rail-out" href="about.html"><span class="rail-tick"></span><span class="rail-name">About</span></a>
+  <a class="rail-link rail-out" href="playground.html"><span class="rail-tick"></span><span class="rail-name">Playground</span></a>
+  <a class="rail-link rail-out" href="contact.html"><span class="rail-tick"></span><span class="rail-name">Contact</span></a>
+</nav>
 
-<div class="sub-header">
-  <a class="back" href="works.html" data-transition data-ttype="t-shutter" data-word="Works"><span class="arr">←</span> All Works</a>
-  <span class="label" id="pjIndex">—</span>
-</div>
+<header class="home-header sub-header" id="top">
+  <a class="back" href="projects.html">
+    <span class="arr" aria-hidden="true">←</span>
+    <span>All projects</span>
+  </a>
+  <div class="header-right label">Case<br>Study—</div>
+</header>
 
-<div class="pj-hero">
-  <h1 class="pj-title" id="pjTitle">—</h1>
-  <div class="pj-meta" id="pjMeta"></div>
-</div>
-
-<div class="pj-cover" id="pjCover"></div>
-
-<div class="pj-body">
-  <section class="pj-section">
-    <h2 class="pj-h">Overview</h2>
-    <div class="pj-prose" id="pjOverview"></div>
-  </section>
-
-  <section class="pj-section pj-two">
-    <div>
-      <h2 class="pj-h">The Challenge</h2>
-      <div class="pj-prose" id="pjChallenge"></div>
-    </div>
-    <div>
-      <h2 class="pj-h">The Solution</h2>
-      <div class="pj-prose" id="pjSolution"></div>
-    </div>
-  </section>
-
-  <section class="pj-section">
-    <h2 class="pj-h">Results</h2>
-    <div class="pj-stats" id="pjStats"></div>
-  </section>
-
-  <section class="pj-section">
-    <h2 class="pj-h">Screens</h2>
-    <div class="pj-gallery" id="pjGallery"></div>
-  </section>
-
-  <section class="pj-section">
-    <h2 class="pj-h">Demo</h2>
-    <div class="pj-video" id="pjVideo"></div>
-  </section>
-</div>
-
-<a class="pj-next" id="pjNext" href="#" data-transition data-ttype="t-shutter">
-  <span class="micro">Next project</span>
-  <span class="pj-next-name" id="pjNextName">—</span>
-  <span class="pj-next-arr">→</span>
-</a>
+<!-- Everything below is built by js/project-page.js from the
+     slug in ?p=, and dressed by css/project.css, which was
+     written for exactly this page. -->
+<main id="page" class="page">
+  <article id="projectPage"></article>
+</main>
 
 <footer>
-  <span class="label">Sohin Santhosh</span>
- 
+  <span class="label">Sohin — Folio Vol.1</span>
 </footer>
 
-<script src="js/project.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/router.js"></script>
 <script src="js/main.js"></script>
+<script src="js/scenes.js"></script>
 <script src="js/cursor.js"></script>
+<script src="js/projects-data.js"></script>
+<script src="js/project-page.js"></script>
+<script src="js/ambient.js"></script>
+<script src="js/flora.js"></script>
+<script src="js/dock.js"></script>
 </body>
 </html>

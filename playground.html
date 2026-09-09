@@ -10,20 +10,23 @@
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/pages.css">
 <link rel="stylesheet" href="css/playground.css">
+<link rel="stylesheet" href="css/dash.css">
+<link rel="stylesheet" href="css/route.css">
+<link rel="stylesheet" href="css/ambient.css">
+<link rel="stylesheet" href="css/flora.css">
+<link rel="stylesheet" href="css/scenes.css">
 <script src="js/theme.js"></script>
+<script src="js/leaves.js"></script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
-<div class="tr t-iris on cover instant" id="tr" aria-hidden="true">
-  <div class="p p1"></div>
-  <div class="word">Playground</div>
-</div>
-
 <div class="sub-header">
-  <a class="back" href="index.html" data-transition data-ttype="t-shutter" data-word="Sohin"><span class="arr">←</span> Back</a>
+  <a class="back" href="index.html"><span class="arr">←</span> Back</a>
   <span class="label">03 — Playground</span>
 </div>
+
+<main id="page" class="page">
 
 <div class="page-title-row">
   <h1 class="page-title">Playground</h1>
@@ -36,7 +39,7 @@
     <span><span class="pg-name">Wave Shader</span><span class="pg-desc">Interactive sine field with live controls</span></span>
   </button>
   <button class="pg-cell" data-app="particles">
-    <span class="pg-cell-top"><span class="glyph">✦</span><span class="pg-launch">↗</span></span>
+    <span class="pg-cell-top"><span class="glyph">∴</span><span class="pg-launch">↗</span></span>
     <span><span class="pg-name">Particle Field</span><span class="pg-desc">Physics sandbox — attract, repel, burst</span></span>
   </button>
   <button class="pg-cell" data-app="theme">
@@ -61,9 +64,12 @@
   </button>
 </div>
 
+<div class="page-scene" data-scene="juggle"></div>
+
+</main>
+
 <footer>
   <span class="label">Sohin Santhosh</span>
-  <span class="label">✦ made with care</span>
 </footer>
 
 <!-- Experiment modal -->
@@ -75,8 +81,14 @@
   <div class="pg-stage" id="pgStage"></div>
 </div>
 
+<script src="js/motion.js"></script>
+<script src="js/router.js"></script>
 <script src="js/main.js"></script>
 <script src="js/playground.js"></script>
 <script src="js/cursor.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/ambient.js"></script>
+<script src="js/flora.js"></script>
+<script src="js/dock.js"></script>
 </body>
 </html>

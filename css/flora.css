@@ -1,0 +1,268 @@
+/* ============================================================
+   flora.css — motion for the procedural growth layer
+
+   Every growth fades in as it scrolls into view, then keeps
+   moving on its own clock: leaves sway at randomised speeds,
+   tendrils breathe, frost shimmers, stars twinkle. On top of
+   that a breeze rolls across the page every few seconds, felt
+   later the further right you are, so it reads as wind moving
+   through rather than everything twitching at once.
+
+   Growth well outside the viewport has its animations paused,
+   which keeps a long page cheap no matter how much is planted.
+   ============================================================ */
+
+.fl-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Growth paints behind content. Where it crosses the readable
+   column it is eased back just enough to keep text crisp — it
+   should still read clearly as a vine, not fade to a ghost. */
+.fl {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.fl.grown { opacity: 1; }
+.fl.fl-margin.grown { opacity: 1; }
+.fl.fl-overlap.grown { opacity: 0.78; }
+.fl svg { width: 100%; height: 100%; overflow: visible; display: block; }
+.fl-flip svg { transform: scaleX(-1); }
+
+/* off-screen growth costs nothing */
+.fl:not(.near) * { animation-play-state: paused !important; }
+
+/* ---------- Shared draw-on ---------- */
+@keyframes flGrow { to { stroke-dashoffset: 0; } }
+
+/* ============================================================
+   Eco — vines
+   ============================================================ */
+.fl-stem {
+  fill: none;
+  stroke: var(--fl-stem, currentColor);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+}
+.fl.grown .fl-stem { animation: flGrow 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+.fl-leaf {
+  fill: var(--fl-leaf, currentColor);
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  opacity: 0;
+}
+.fl.grown .fl-leaf {
+  animation:
+    flLeafIn 0.72s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    flSway var(--sway, 6s) ease-in-out infinite;
+}
+@keyframes flLeafIn {
+  from { opacity: 0; scale: 0.12 0.4; }
+  to   { opacity: var(--o, 0.8); scale: 1 1; }
+}
+@keyframes flSway {
+  0%, 100% { rotate: calc(var(--tilt, 5deg) * -1); }
+  50%      { rotate: var(--tilt, 5deg); }
+}
+
+/* compound fern leaves are stroked, not filled */
+.fl-fern { fill: none; }
+.fl-rib, .fl-leaflet {
+  fill: none;
+  stroke: var(--fl-leaf, currentColor);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+
+.fl-curl {
+  fill: none;
+  stroke: var(--fl-stem, currentColor);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+}
+.fl.grown .fl-curl {
+  animation:
+    flGrow 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    flCurlBreathe var(--sway, 8s) ease-in-out infinite;
+}
+@keyframes flCurlBreathe {
+  0%, 100% { rotate: -3deg; scale: 0.97; }
+  50%      { rotate: 4deg;  scale: 1.03; }
+}
+
+/* ---------- The breeze ----------
+   --gd is set per growth from its distance across the page, so
+   the gust arrives later the further right it is. */
+.fl-gust { transform-box: fill-box; transform-origin: 0% 50%; }
+.fl-layer.gusting .fl-gust {
+  animation: flGust 2.5s cubic-bezier(0.22, 1, 0.36, 1) var(--gd, 0s);
+}
+@keyframes flGust {
+  0%   { rotate: 0deg; }
+  16%  { rotate: -17deg; }
+  38%  { rotate: 10deg; }
+  58%  { rotate: -6deg; }
+  78%  { rotate: 3deg; }
+  100% { rotate: 0deg; }
+}
+
+/* ============================================================
+   Winter — creeping frost
+   ============================================================ */
+.fl-frost {
+  fill: none;
+  stroke: var(--fl-stem, currentColor);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+  opacity: 0.85;
+}
+.fl.grown .fl-frost {
+  animation:
+    flGrow 0.62s ease-out forwards,
+    flShimmer var(--shimmer, 5s) ease-in-out infinite;
+}
+@keyframes flShimmer {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 0.95; }
+}
+
+.fl-flake {
+  fill: none;
+  stroke: var(--fl-leaf, currentColor);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+}
+.fl.grown .fl-flake {
+  animation:
+    flFlakeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    flSpin var(--spin, 30s) linear infinite;
+}
+@keyframes flFlakeIn {
+  from { opacity: 0; scale: 0.2; }
+  to   { opacity: var(--o, 0.7); scale: 1; }
+}
+@keyframes flSpin { to { rotate: 360deg; } }
+
+/* ============================================================
+   Sunny — shafts, flares, sparks
+   ============================================================ */
+.fl-shaft {
+  fill: var(--fl-leaf, currentColor);
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  opacity: 0;
+  filter: blur(9px);
+}
+.fl.grown .fl-shaft { animation: flShaftLive var(--shimmer, 8s) ease-in-out infinite; }
+@keyframes flShaftLive {
+  0%, 100% { opacity: calc(var(--o, 0.2) * 0.45); scale: 0.97 0.98; }
+  50%      { opacity: var(--o, 0.2);              scale: 1.03 1.02; }
+}
+
+.fl-spark {
+  fill: var(--fl-leaf, currentColor);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+}
+.fl.grown .fl-spark { animation: flTwinkle var(--tw, 3s) ease-in-out infinite; }
+@keyframes flTwinkle {
+  0%, 100% { opacity: calc(var(--o, 0.7) * 0.25); scale: 0.65; rotate: 0deg; }
+  50%      { opacity: var(--o, 0.7);              scale: 1.1;  rotate: 45deg; }
+}
+
+.fl-ring {
+  fill: none;
+  stroke: var(--fl-leaf, currentColor);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+}
+.fl.grown .fl-ring { animation: flRing var(--pulse, 6s) ease-in-out infinite; }
+@keyframes flRing {
+  0%, 100% { opacity: calc(var(--o, 0.25) * 0.3); scale: 0.9; }
+  50%      { opacity: var(--o, 0.25);             scale: 1.08; }
+}
+
+/* ============================================================
+   Night — constellations
+   ============================================================ */
+.fl-link {
+  fill: none;
+  stroke: var(--fl-stem, currentColor);
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.42;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+}
+.fl.grown .fl-link {
+  animation:
+    flGrow 1s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    flLinkPulse 7s ease-in-out infinite;
+}
+@keyframes flLinkPulse {
+  0%, 100% { opacity: 0.22; }
+  50%      { opacity: 0.55; }
+}
+
+.fl-star {
+  fill: var(--fl-leaf, currentColor);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+}
+.fl.grown .fl-star {
+  animation:
+    flStarIn 0.6s ease-out forwards,
+    flStarTwinkle var(--tw, 4s) ease-in-out infinite;
+}
+@keyframes flStarIn {
+  from { opacity: 0; scale: 0.2; }
+  to   { opacity: var(--o, 0.8); scale: 1; }
+}
+@keyframes flStarTwinkle {
+  0%, 100% { scale: 0.8; }
+  50%      { scale: 1.35; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 820px) {
+  .fl-stem { stroke-width: 1.7; }
+  .fl-shaft { filter: blur(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl { transition: none; }
+  .fl.grown .fl-stem,
+  .fl.grown .fl-curl,
+  .fl.grown .fl-frost,
+  .fl.grown .fl-link { animation: flGrow 0.01s forwards; }
+  .fl.grown .fl-leaf { animation: flLeafIn 0.01s forwards; }
+  .fl.grown .fl-flake { animation: flFlakeIn 0.01s forwards; }
+  .fl.grown .fl-star { animation: flStarIn 0.01s forwards; }
+  .fl.grown .fl-shaft,
+  .fl.grown .fl-spark,
+  .fl.grown .fl-ring { animation: none; opacity: var(--o, 0.5); }
+  .fl-layer.gusting .fl-gust { animation: none; }
+}

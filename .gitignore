@@ -1,1 +1,9 @@
 assets/projects/fettle.mp4
+
+.check/node_modules
+.check/package-lock.json
+
+# npm rebuilds this from package.json; 26MB has no business in a
+# portfolio repo. The @vercel/analytics copy that was committed
+# earlier is untracked in the same change.
+node_modules/

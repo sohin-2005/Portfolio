@@ -4,224 +4,252 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sohin Santhosh — Folio Vol.1</title>
+<meta name="description" content="Sohin Santhosh — computer science undergraduate and full-stack developer from Kochi, India. Selected works, background and contact.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/timeline.css">
+<link rel="stylesheet" href="css/constellation.css">
+<link rel="stylesheet" href="css/scenes.css">
+<link rel="stylesheet" href="css/dash.css">
+<link rel="stylesheet" href="css/route.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/ambient.css">
+<link rel="stylesheet" href="css/flora.css">
 <script src="js/theme.js"></script>
-  <script defer src="/_vercel/insights/script.js"></script>
+<script src="js/leaves.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
+<body data-page="home">
 
-<canvas id="particles" aria-hidden="true"></canvas>
-
-<div class="tr t-shutter on cover instant" id="tr" aria-hidden="true">
-  <div class="p p1"></div>
-  <div class="p p2"></div>
-  <div class="word">Sohin</div>
+<!-- opening sequence — see js/intro.js. The page beneath is held
+     blurred and hidden while the name is written, then handed over. -->
+<div class="intro" id="intro" aria-hidden="true">
+  <canvas class="intro-trail"></canvas>
+  <!-- js/intro.js clones the hero's wordmark in here and writes it.
+       Empty in the markup on purpose: the name that matters lives
+       in the hero below, where it is readable with no JavaScript
+       at all, and this is a copy of it. -->
+  <div class="intro-mark"></div>
+  <span class="intro-bead"></span>
+  <button class="intro-skip" type="button">Skip intro</button>
 </div>
 
-<header class="home-header">
-  <div class="header-left">
+<!-- the map: one hairline per destination, named on approach -->
+<nav class="rail" aria-label="Sections">
+  <a class="rail-link" href="index.html#works" data-goto="works"><span class="rail-tick"></span><span class="rail-name">Projects</span></a>
+  <a class="rail-link rail-out" href="about.html"><span class="rail-tick"></span><span class="rail-name">About</span></a>
+  <a class="rail-link rail-out" href="playground.html"><span class="rail-tick"></span><span class="rail-name">Playground</span></a>
+  <a class="rail-link rail-out" href="contact.html"><span class="rail-tick"></span><span class="rail-name">Contact</span></a>
+</nav>
+
+<header class="home-header" id="top">
+  <div class="header-left" data-intro-stop="1">
     <span class="asterisk">✳</span>
     <span class="label">Open for any collaborations</span>
   </div>
-  <div class="header-right label">Folio<br>Vol.1—</div>
+  <div class="header-right label" data-intro-stop="2">Folio<br>Vol.1—</div>
 </header>
 
-<section class="hero" aria-label="Sohin">
-  <span class="first" id="heroName" title="click me">Sohin</span>
+<!-- the name card — see css/hero.css and js/hero.js.
+     The wordmark is drawn rather than typeset: seven monoline
+     strokes off two radii, written stroke by stroke once the
+     opening sequence hands the page over. -->
+<section class="hero" aria-label="Sohin Santhosh">
+  <div class="hero-stage" id="heroStage">
+    <div class="hero-tilt" id="heroTilt">
+
+      <!-- ============================================================
+           The wordmark
+
+           These are the real Sogea letterforms, lifted out of the
+           font as outlines and shipped as artwork rather than as a
+           font file. Two reasons, and either would be enough:
+
+             The font is licensed "Demo for Personal Use". Serving
+             the .otf to every visitor would be redistributing it.
+             Five glyphs of drawn artwork is a logotype, and weighs
+             3KB instead of 21KB.
+
+             A font cannot be written. Live text has filled glyph
+             outlines and no notion of a pen; there is nothing to
+             draw along. So each letter here is its real outline
+             used as a clip, with a fat monoline brush swept along
+             the letter's own medial axis underneath it. Unrolling
+             the brush paints the true Sogea shape, terminals,
+             overshoots and all — it is the font, being written.
+
+           Coordinates are the font's own: 1000 units to the em,
+           baseline at y=0, y flipped for SVG. The stroke is a
+           uniform 80 units, so every skeleton is exactly the two
+           sides of its stroke averaged, and the brush is 120 to
+           cover the corners the averaging rounds off.
+           ============================================================ -->
+        <svg class="hero-mark" id="heroName" viewBox="-30 -730 2582 780"
+             role="img" aria-label="Sohin" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- the S, both parts -->
+            <clipPath id="sgS"><path d="M584.0 0.0H667.0C667.0 -199.0 551.0 -304.0 290.0 -395.0C149.0 -445.0 172.0 -620.0 296.0 -620.0H630.0V-700.0H318.0C71.0 -700.0 24.0 -391.0 289.0 -312.0C496.0 -250.0 584.0 -155.0 584.0 0.0ZM25.0 0.0H105.0C105.0 -99.0 186.0 -180.0 285.0 -180.0C384.0 -180.0 465.0 -99.0 465.0 0.0H545.0C545.0 -143.0 428.0 -260.0 285.0 -260.0C142.0 -260.0 25.0 -143.0 25.0 0.0Z"/></clipPath>
+            <!-- the o -->
+            <clipPath id="sgO"><path d="M717.0 -250.0C717.0 -107.0 834.0 10.0 977.0 10.0C1120.0 10.0 1237.0 -107.0 1237.0 -250.0C1237.0 -393.0 1120.0 -510.0 977.0 -510.0C834.0 -510.0 717.0 -393.0 717.0 -250.0ZM797.0 -250.0C797.0 -349.0 878.0 -430.0 977.0 -430.0C1076.0 -430.0 1157.0 -349.0 1157.0 -250.0C1157.0 -151.0 1076.0 -70.0 977.0 -70.0C878.0 -70.0 797.0 -151.0 797.0 -250.0Z"/></clipPath>
+            <!-- the h -->
+            <clipPath id="sgH"><path d="M1807.0 0.0V-250.0C1807.0 -393.0 1690.0 -500.0 1547.0 -500.0H1367.0V-700.0H1287.0V0.0H1367.0V-420.0H1547.0C1646.0 -420.0 1727.0 -349.0 1727.0 -250.0V0.0Z"/></clipPath>
+            <!-- the i stem only; the tittle is drawn, not written -->
+            <clipPath id="sgI"><path d="M1862 -500 L1862 0 L1942 0 L1942 -500 Z"/></clipPath>
+            <!-- the n -->
+            <clipPath id="sgN"><path d="M1997.0 10.0H2077.0V-240.0C2077.0 -339.0 2148.0 -420.0 2247.0 -420.0C2346.0 -420.0 2417.0 -339.0 2417.0 -240.0V10.0H2497.0V-240.0C2497.0 -383.0 2390.0 -500.0 2247.0 -500.0C2104.0 -500.0 1997.0 -383.0 1997.0 -240.0Z"/></clipPath>
+          </defs>
+
+          <g class="hero-ink">
+            <!-- S  the top bar, right to left, then the sweep down -->
+            <g clip-path="url(#sgS)"><path class="hs" d="M630 -660 L307 -660 C121.5 -660, 86.5 -418, 289.5 -353.5 C523.5 -277, 625.5 -177, 625.5 0"/></g>
+            <!-- S  the arch on the baseline -->
+            <g clip-path="url(#sgS)"><path class="hs" d="M65 0 A220 220 0 0 1 505 0"/></g>
+            <!-- o  one ring from the top, clockwise -->
+            <g clip-path="url(#sgO)"><path class="hs" d="M977 -470 A220 220 0 0 1 977 -30 A220 220 0 0 1 977 -470"/></g>
+            <!-- h  the ascender, top to baseline -->
+            <g clip-path="url(#sgH)"><path class="hs" d="M1327 -700 L1327 0"/></g>
+            <!-- h  back up the stem, out over the shoulder, down the leg -->
+            <g clip-path="url(#sgH)"><path class="hs" d="M1327 -460 L1547 -460 A220 210 0 0 1 1767 -250 L1767 0"/></g>
+            <!-- i  the stem -->
+            <g clip-path="url(#sgI)"><path class="hs" d="M1902 -500 L1902 0"/></g>
+            <!-- n  the stem -->
+            <g clip-path="url(#sgN)"><path class="hs" d="M2037 -240 L2037 0"/></g>
+            <!-- n  back up, over the arch, down the leg -->
+            <g clip-path="url(#sgN)"><path class="hs" d="M2037 -240 A210 220 0 0 1 2457 -240 L2457 0"/></g>
+          </g>
+
+          <!-- the tittle, at the size and place the font puts it -->
+          <circle class="hero-dot" cx="1902" cy="-575" r="45"/>
+          <!-- the nib: parked off-canvas rather than merely transparent, so it
+               cannot paint at the viewBox origin before it has a stroke to ride -->
+          <circle class="hero-nib" cx="0" cy="0" r="46" transform="translate(-9999 -9999)"/>
+        </svg>
+    </div>
+  </div>
   <p class="hero-sub micro">( computer science student — kochi, india )</p>
 </section>
 
-<nav class="main-nav">
-  <a class="nav-item" href="works.html" data-transition data-ttype="t-shutter" data-word="Works">
-    <span class="micro">01</span><span class="name">Works</span>
+<nav class="main-nav" aria-label="Primary">
+  <a class="nav-item" href="index.html#works" data-goto="works" data-intro-stop="3">
+    <span class="micro">01</span><span class="name">Projects</span>
   </a>
-  <a class="nav-item" href="about.html" data-transition data-ttype="t-splitv" data-word="About">
+  <a class="nav-item" href="about.html">
     <span class="micro">02</span><span class="name">About</span>
   </a>
-  <a class="nav-item" href="playground.html" data-transition data-ttype="t-iris" data-word="Playground">
+  <a class="nav-item" href="playground.html">
     <span class="micro">03</span><span class="name">Playground</span>
   </a>
-  <a class="nav-item" href="contact.html" data-transition data-ttype="t-blinds" data-word="Contact">
+  <a class="nav-item" href="contact.html" data-intro-stop="4">
     <span class="micro">04</span><span class="name">Contact</span>
   </a>
 </nav>
 
 <section class="bottom">
   <div class="blurb">
-    
     <p>Sohin Santhosh is a computer science undergrad &amp; full-stack developer from Kochi, India.</p>
   </div>
-  <div class="illus">
-    <svg class="scene" viewBox="0 0 460 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: engineer working at a desk, with a cat, a plant, and a light bulb you can click">
-      <defs>
-        <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#FFDFA3" stop-opacity="0.95"/>
-          <stop offset="55%" stop-color="#FFC463" stop-opacity="0.45"/>
-          <stop offset="100%" stop-color="#FFC463" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="gBulb" cx="50%" cy="42%" r="60%">
-          <stop offset="0%" stop-color="#FFF4D6"/>
-          <stop offset="100%" stop-color="#FFB84D"/>
-        </radialGradient>
-      </defs>
-
-      <!-- floor -->
-      <line x1="36" y1="284" x2="424" y2="284" stroke="rgba(17,17,17,0.25)" stroke-width="2" stroke-linecap="round"/>
-
-      <!-- plant -->
-      <g class="plant">
-        <path class="leaf l1" d="M84 248 C68 214 70 178 86 152 C100 180 98 216 84 248 Z" fill="#111"/>
-        <path class="leaf l2" d="M84 248 C58 232 44 206 46 178 C70 194 82 220 84 248 Z" fill="#111"/>
-        <path class="leaf l3" d="M86 248 C112 230 124 204 120 178 C98 194 88 220 86 248 Z" fill="#111"/>
-        <rect x="58" y="246" width="52" height="8" rx="3" fill="#111"/>
-        <path d="M63 254 h42 l-5 30 h-32 Z" fill="#111"/>
-      </g>
-
-      <!-- cat -->
-      <g class="cat">
-        <path class="tail" d="M150 282 C136 278 128 266 134 254" stroke="#111" stroke-width="6" stroke-linecap="round"/>
-        <path d="M150 284 C150 264 160 252 172 252 C184 252 194 264 194 284 Z" fill="#111"/>
-        <path d="M178 239 L174 228 L183 233 Z" fill="#111"/>
-        <path d="M193 239 L197 228 L188 233 Z" fill="#111"/>
-        <circle cx="186" cy="246" r="11" fill="#111"/>
-        <g class="eyes">
-          <circle cx="182" cy="245" r="1.6" fill="#ECECEC"/>
-          <circle cx="190" cy="245" r="1.6" fill="#ECECEC"/>
-        </g>
-      </g>
-
-      <!-- desk -->
-      <rect x="120" y="200" width="230" height="10" rx="5" fill="#111"/>
-      <rect x="136" y="210" width="9" height="68" rx="4" fill="#111"/>
-      <rect x="325" y="210" width="9" height="68" rx="4" fill="#111"/>
-      <rect x="126" y="278" width="29" height="6" rx="3" fill="#111"/>
-      <rect x="315" y="278" width="29" height="6" rx="3" fill="#111"/>
-
-      <!-- coffee mug + steam -->
-      <path class="steam s1" d="M181 178 q-3 -6 0 -12" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-      <path class="steam s2" d="M188 178 q3 -6 0 -12" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="194" cy="191" r="4.5" stroke="#111" stroke-width="3"/>
-      <rect x="176" y="184" width="16" height="16" rx="2" fill="#111"/>
-
-      <!-- laptop -->
-      <rect x="210" y="146" width="58" height="48" rx="5" fill="#111"/>
-      <rect x="215" y="151" width="48" height="34" rx="2" fill="#ECECEC"/>
-      <g fill="#111" opacity="0.85">
-        <rect class="cl cl1" x="219" y="156" width="26" height="3.5" rx="1.75"/>
-        <rect class="cl cl2" x="219" y="163" width="36" height="3.5" rx="1.75"/>
-        <rect class="cl cl3" x="219" y="170" width="20" height="3.5" rx="1.75"/>
-        <rect class="cl cl4" x="219" y="177" width="31" height="3.5" rx="1.75"/>
-      </g>
-      <rect x="206" y="194" width="66" height="6" rx="3" fill="#111"/>
-
-      <!-- chair -->
-      <rect x="346" y="152" width="9" height="62" rx="4.5" fill="#111"/>
-      <rect x="294" y="210" width="56" height="9" rx="4.5" fill="#111"/>
-      <rect x="318" y="219" width="8" height="58" fill="#111"/>
-      <rect x="298" y="277" width="48" height="7" rx="3.5" fill="#111"/>
-
-      <!-- person -->
-      <g class="person">
-        <path d="M304 204 L274 212" stroke="#111" stroke-width="11" stroke-linecap="round"/>
-        <path d="M274 212 L271 278" stroke="#111" stroke-width="9" stroke-linecap="round"/>
-        <rect x="256" y="277" width="26" height="7" rx="3.5" fill="#111"/>
-        <rect x="309" y="136" width="14" height="20" rx="5" fill="#111"/>
-        <rect x="298" y="150" width="44" height="60" rx="18" fill="#111"/>
-        <path d="M306 158 L286 180" stroke="#111" stroke-width="10" stroke-linecap="round"/>
-        <g class="armF">
-          <path d="M286 180 L266 192" stroke="#111" stroke-width="9" stroke-linecap="round"/>
-          <circle cx="264" cy="193" r="5.5" fill="#111"/>
-        </g>
-        <g class="headG">
-          <circle cx="316" cy="126" r="17" fill="#111"/>
-          <path d="M303 124 h9 m4 0 h9" stroke="#ECECEC" stroke-width="2.5" stroke-linecap="round"/>
-        </g>
-      </g>
-
-      <!-- light bulb (click to toggle) -->
-      <g id="bulb" tabindex="0" role="button" aria-label="Toggle the light bulb" aria-pressed="false">
-        <title>Click to switch the light on</title>
-        <circle class="halo" cx="385" cy="64" r="38" fill="url(#gGlow)"/>
-        <g class="rays">
-          <line x1="385" y1="42" x2="385" y2="33"/>
-          <line x1="369" y1="48" x2="363" y2="42"/>
-          <line x1="401" y1="48" x2="407" y2="42"/>
-          <line x1="362" y1="64" x2="353" y2="64"/>
-          <line x1="408" y1="64" x2="417" y2="64"/>
-        </g>
-        <circle class="glass" cx="385" cy="64" r="16" fill="#ECECEC" stroke="#111" stroke-width="3"/>
-        <path class="fil" d="M378 70 q7 -9 14 0" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-        <rect x="379" y="80" width="12" height="4" rx="2" fill="#111"/>
-        <rect x="380.5" y="86" width="9" height="3" rx="1.5" fill="#111"/>
-        <rect x="383" y="90" width="5" height="3" rx="1.5" fill="#111"/>
-      </g>
-    </svg>
-  </div>
+  <div class="illus" data-scene="desk" data-intro-stop="5"></div>
   <div class="blurb">
-   
     <p>Curious about machine learning, data analytics and fintech — building beautiful digital experiences.</p>
   </div>
 </section>
 
 <p class="caption">Just an ordinary engineer. From code with love. <span class="scroll-hint">↓ keep scrolling</span></p>
 
-<!-- marquee band -->
-<div class="band" aria-hidden="true">
-  <div class="band-track">
-    <span>Full-stack Developer</span><em>✦</em><i>machine learning</i><em>✦</em>
-    <span>Data Analytics</span><em>✦</em><i>fintech</i><em>✦</em>
-    <span>Creative Code</span><em>✦</em><i>pixel care</i><em>✦</em>
-    <span>Full-stack Developer</span><em>✦</em><i>machine learning</i><em>✦</em>
-    <span>Data Analytics</span><em>✦</em><i>fintech</i><em>✦</em>
-    <span>Creative Code</span><em>✦</em><i>pixel care</i><em>✦</em>
-  </div>
-</div>
+<main id="page" class="page">
 
-<!-- margin notes: rotating quotations -->
-<section class="quotes reveal">
-  <span class="micro">Margin Notes — from the bookshelf</span>
-  <blockquote class="quote-text" id="quoteText">“ ”</blockquote>
-  <div class="quote-author micro" id="quoteAuthor">—</div>
-  <div class="quote-dots" id="quoteDots"></div>
-</section>
+<!-- ============================================================
+     01 — The stack, in orbit
 
-<!-- principles -->
-<section class="principles">
-  <div class="principle reveal">
-    <span class="micro">01 — Craft</span>
-    <h3>Details are the product.</h3>
-    <p>The last 5% — easing curves, empty states, error copy — is where software stops feeling like software.</p>
+     NB: this section must not be id="stack". js/about.js builds
+     its grouped tech-logo grid into #stack, so naming it that
+     made the About page's list appear here as a flat column of
+     labels above Works.
+     ============================================================ -->
+<section class="sec reveal" id="orbit" data-section aria-labelledby="orbitTitle">
+  <div class="sec-head">
+    <span class="sec-num micro">01</span>
+    <h2 class="sec-title" id="orbitTitle">What I build with</h2>
+    <p class="sec-note">The stack in orbit — every tool on a ring of its own, turning at its own rate.</p>
   </div>
-  <div class="principle reveal">
-    <span class="micro">02 — Clarity</span>
-    <h3>Code is read far more than it is written.</h3>
-    <p>I optimize for the next person in the file. Usually that person is me, three months later, at 2am.</p>
-  </div>
-  <div class="principle reveal">
-    <span class="micro">03 — Curiosity</span>
-    <h3>Play is research.</h3>
-    <p>The playground on this site isn't decoration — half of what I ship started as an experiment that refused to stay one.</p>
+
+  <!-- orbits are built by js/constellation.js -->
+  <div class="cn" id="cn">
+    <div class="cn-sky" id="cnSky">
+      <div class="cn-hub" aria-hidden="true"><span></span></div>
+      <canvas class="cn-links" aria-hidden="true"></canvas>
+      <div class="cn-readout" id="cnReadout">
+        <span class="cn-readout-name"></span>
+        <span class="cn-readout-kind"></span>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta reveal">
-  <span class="micro">Have an idea?</span>
-  <a class="cta-link" href="contact.html" data-transition data-ttype="t-blinds" data-word="Contact">Let's build something <span class="cta-arr">→</span></a>
+<!-- ============================================================
+     02 — Projects
+
+     The thread: a curved, hand-inked line that draws itself as
+     you scroll, with one checkpoint per project. Clicking a
+     checkpoint opens a small card beside it — a shot, a name, a
+     line, and a way through.
+
+     Deliberately a teaser. The whole rail of projects is at
+     projects.html and each project has its own page at
+     project.html?p=<slug>. Built by js/timeline.js; everything
+     below is the empty stage it draws into.
+     ============================================================ -->
+<section class="sec sec-bleed reveal" id="works" data-section aria-labelledby="worksTitle">
+  <div class="sec-head">
+    <span class="sec-num micro">02</span>
+    <h2 class="sec-title" id="worksTitle">Projects</h2>
+    <p class="sec-note">One thread, a checkpoint each. Pick one to see what it is, then open it in full.</p>
+  </div>
+
+  <div class="tl" id="tl">
+    <div class="tl-plot"></div>
+    <div class="tl-card" aria-hidden="true"></div>
+  </div>
+
+  <div class="works-foot">
+    <a class="works-next" href="projects.html">
+      <span class="micro">All of them</span>
+      <span class="works-next-name">Projects</span>
+      <span class="works-next-arr" aria-hidden="true">→</span>
+    </a>
+  </div>
 </section>
+
+</main>
 
 <footer>
   <span class="label">Sohin — Folio Vol.1</span>
-  <span class="label"> made with care</span>
 </footer>
 
+<script src="js/motion.js"></script>
+<!-- The wordmark, then the two things that can write it. intro.js
+     goes first so it can claim the job before hero.js decides
+     whether to do it itself; see window.__introWrites. -->
+<script src="js/wordmark.js"></script>
+<script src="js/intro.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/router.js"></script>
 <script src="js/main.js"></script>
-<script src="js/particles.js"></script>
-<script src="js/scene.js"></script>
+<script src="js/scenes.js"></script>
 <script src="js/cursor.js"></script>
+<script src="js/projects-data.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/tech.js"></script>
+<script src="js/constellation.js"></script>
+<script src="js/about.js"></script>
+<script src="js/ambient.js"></script>
+<script src="js/flora.js"></script>
+<script src="js/dock.js"></script>
+<script type="module" src="js/lively.js"></script>
 </body>
 </html>

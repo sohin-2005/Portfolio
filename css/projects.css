@@ -1,0 +1,298 @@
+/* ============================================================
+   projects.css — the projects rail
+
+   A row of cards you scroll sideways, bleeding off the right
+   edge of the screen so it is obvious there is more than fits.
+
+   The scroll is the browser's own — an overflow container with
+   snap points — so trackpads, shift-wheel, touch, keyboard and
+   the scrollbar all work without a line of JavaScript. The
+   arrows in the section head are a convenience on top of that,
+   which is why the rail is still usable if they never wire up.
+   ============================================================ */
+
+.pr {
+  position: relative;
+  z-index: 1;
+}
+
+/* the arrows sit above the rail, on the same margin as the
+   section head above them */
+.pr-top {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 40px 18px;
+}
+
+/* ---------- The rail ----------
+   #works is a .sec-bleed, so the section itself has no side
+   padding and the rail owns it: 40px in on the left to line the
+   first card up with the section head, 40px of run-off on the
+   right so the last card has somewhere to end. scroll-padding
+   repeats the left inset, otherwise every snap would park a card
+   against the viewport edge instead of against the head. */
+.pr-rail {
+  display: grid;
+  grid-auto-flow: column;
+  /* A fixed track, not minmax(0, N). A flexible track lets the
+     grid solve for the container width and squeeze every card in
+     rather than overflowing, which leaves nothing to scroll.
+
+     The width is also deliberately generous. At 372px three cards
+     fitted inside a 1440px screen with room to spare, so the rail
+     had nothing to scroll and read as a plain row that happened
+     to stop after three. At this size the third card runs off the
+     edge on a laptop, which is the whole affordance. */
+  grid-auto-columns: min(480px, 82vw);
+  column-gap: 26px;
+  align-items: stretch;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 40px;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 40px 30px;
+}
+
+/* The scrollbar is redundant next to the arrows and the bleed,
+   and a permanent grey bar under the cards is the single ugliest
+   thing on the page. The rail keeps its keyboard focus ring. */
+.pr-rail { scrollbar-width: none; }
+.pr-rail::-webkit-scrollbar { display: none; }
+
+.pr-rail:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ink) 55%, transparent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* ---------- The card ---------- */
+.pr-card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg) 96%, var(--ink));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  overflow: hidden;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.4s ease;
+}
+.pr-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--ink) 26%, transparent);
+}
+
+/* ---------- The shot ----------
+   A link to the project's own page. It is the largest, most
+   obvious thing on the card and it goes to the fullest version
+   of the thing the card is about, which is the right pairing. */
+.pr-shot {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, var(--ink));
+  cursor: pointer;
+  overflow: hidden;
+  font: inherit;
+  color: inherit;
+}
+.pr-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pr-card:hover .pr-shot img { transform: scale(1.035); }
+.pr-shot.is-bare img { display: none; }
+
+/* the label that comes up over the shot */
+.pr-open {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.pr-open span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.pr-card:hover .pr-open,
+.pr-shot:focus-visible .pr-open { opacity: 1; }
+.pr-shot:focus-visible { outline: none; }
+
+/* ---------- The body ---------- */
+.pr-body {
+  padding: 22px 22px 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.pr-num { display: block; }
+.pr-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.pr-cat {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--bg));
+}
+.pr-line {
+  font-size: 14px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 78%, var(--bg));
+  margin-top: 3px;
+}
+
+.pr-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.pr-chips li {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  color: color-mix(in srgb, var(--ink) 62%, var(--bg));
+}
+
+/* ---------- The links ----------
+   Two of them, side by side, each half the card. A project with
+   only one gets one full-width button rather than a gap where
+   the other would have been. */
+.pr-links {
+  display: flex;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.pr-link {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 15px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.pr-link + .pr-link {
+  border-left: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.pr-link:hover,
+.pr-link:focus-visible {
+  background: var(--ink);
+  color: var(--bg);
+  outline: none;
+}
+.pr-arr {
+  font-size: 12px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pr-link:hover .pr-arr { transform: translate(2px, -2px); }
+
+/* ---------- The arrows ---------- */
+.pr-nav {
+  display: flex;
+  gap: 8px;
+}
+/* nothing to scroll to, nothing to press */
+.pr:not(.is-scrollable) .pr-nav { display: none; }
+
+.pr-nav button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--ink) 24%, transparent);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+.pr-nav button:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
+}
+.pr-nav button:disabled {
+  opacity: 0.26;
+  cursor: default;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 820px) {
+  .pr-top { padding: 0 20px 14px; }
+  .pr-rail {
+    grid-auto-columns: 78vw;
+    column-gap: 16px;
+    scroll-padding-left: 20px;
+    padding: 6px 20px 24px;
+  }
+  .pr-name { font-size: 26px; }
+  .pr-body { padding: 18px 18px 16px; }
+  /* on a touch screen the finger is the arrows */
+  .pr-nav { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-rail { scroll-behavior: auto; }
+  .pr-card,
+  .pr-shot img,
+  .pr-open,
+  .pr-arr { transition: none; }
+  .pr-card:hover { transform: none; }
+  .pr-card:hover .pr-shot img { transform: none; }
+}
+
+/* ---------- A section head with no title ----------
+   .sec-head is a two-column grid built around a big heading, and
+   .sec-note is pinned to column 2 so it sits under it. With the
+   heading gone the note would still be parked in column 2 with a
+   6vh gap below it that the heading used to need. This puts the
+   number and the note on one line and closes the gap. */
+.sec-head-bare {
+  align-items: baseline;
+  margin-bottom: 4vh;
+}
+.sec-head-bare .sec-note {
+  grid-column: 2;
+  max-width: 52ch;
+}

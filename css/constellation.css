@@ -1,0 +1,207 @@
+/* ============================================================
+   constellation.css — the orbiting tech stack
+
+   Bodies are positioned by JS each frame, so this file only
+   handles look: the hub's pulse, each body's mark and hover
+   bloom, and the readout that names whatever you point at.
+   ============================================================ */
+
+.cn {
+  position: relative;
+  z-index: 1;
+  padding: 10vh 40px 6vh;
+}
+
+.cn-head { text-align: center; max-width: 720px; margin: 0 auto; }
+.cn-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(28px, 4.6vw, 56px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-top: 16px;
+}
+.cn-title em { font-style: italic; }
+
+/* ---------- Sky ---------- */
+.cn-sky {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  height: clamp(340px, 46vw, 480px);
+  margin: 3vh auto 0;
+}
+.cn-links {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- Hub ---------- */
+.cn-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  pointer-events: none;
+}
+.cn-hub span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--ink);
+}
+.cn-hub::before,
+.cn-hub::after {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  opacity: 0;
+  animation: cnPulse 3.4s ease-out infinite;
+}
+.cn-hub::after { animation-delay: 1.7s; }
+@keyframes cnPulse {
+  0%   { transform: scale(0.5); opacity: 0.5; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* ---------- Bodies ---------- */
+.cn-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  color: var(--ink);
+  cursor: pointer;
+  will-change: transform, opacity;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.4s ease,
+    background 0.3s ease,
+    opacity 0.35s ease;
+}
+.cn-node:hover,
+.cn-node.on {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 16%, transparent),
+              0 14px 30px -16px var(--brand);
+  background: color-mix(in srgb, var(--bg) 96%, transparent);
+}
+
+.cn-mark {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+.cn-node:hover .cn-mark,
+.cn-node.on .cn-mark { transform: scale(1.16); }
+
+.cn-node .tech-mono {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--ink) 76%, var(--bg));
+  transition: color 0.35s ease;
+}
+.cn-node:hover .tech-mono,
+.cn-node.on .tech-mono { color: var(--brand); }
+.cn-node.has-logo .tech-mono { display: none; }
+
+/* the logo mask is shared with the About grid */
+.cn-node .tech-logo {
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--ink) 80%, var(--bg));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: background-color 0.35s ease;
+}
+.cn-node:hover .tech-logo,
+.cn-node.on .tech-logo { background-color: var(--brand); }
+
+/* ---------- Readout ---------- */
+.cn-readout {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 26px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  text-align: center;
+}
+.cn-readout.show { opacity: 1; transform: translate(-50%, 34px); }
+.cn-readout-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(20px, 2.6vw, 32px);
+  line-height: 1;
+  color: var(--brand, var(--ink));
+}
+.cn-readout-kind {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 52%, var(--bg));
+}
+
+/* a hint before anyone hovers anything */
+.cn-sky::after {
+  content: "Hover a body";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 30px);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 38%, var(--bg));
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.cn-sky.cn-focused::after { opacity: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 820px) {
+  .cn { padding: 8vh 20px 4vh; }
+  .cn-sky { height: clamp(300px, 74vw, 380px); }
+  .cn-node { width: 36px; height: 36px; }
+  .cn-mark { width: 18px; height: 18px; }
+  .cn-node .tech-mono { font-size: 9px; }
+  .cn-sky::after { content: "Tap a body"; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-hub::before, .cn-hub::after { animation: none; }
+  .cn-node { transition: none; }
+}

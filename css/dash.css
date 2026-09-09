@@ -1,0 +1,291 @@
+/* ============================================================
+   dash.css — the one-page dashboard
+
+   Works, About and Contact are no longer separate documents;
+   they are sections of the home page. That only works if the
+   seams are convincing, so this file gives every section the
+   same three things:
+
+     · a numbered head, so you always know where you are
+     · a hairline rule that starts the section, borrowed from
+       the works list, so the whole page reads as one table
+     · generous vertical air between them, which is what makes
+       a long scroll feel composed rather than stacked
+
+   The side rail is the map. It stays out of the way — a column
+   of hairlines against the left margin — and only names itself
+   when you approach it or when a section is active.
+   ============================================================ */
+
+/* ============================================================
+   Sections
+   ============================================================ */
+.sec {
+  position: relative;
+  z-index: 1;
+  padding: 12vh 40px 0;
+  scroll-margin-top: 4vh;
+}
+.sec-inner { max-width: 1200px; }
+
+.sec-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 22px;
+  row-gap: 6px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  padding-top: 20px;
+  margin-bottom: 6vh;
+}
+.sec-num {
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(44px, 7.5vw, 108px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.sec-note {
+  grid-column: 2;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 58%, var(--bg));
+  max-width: 46ch;
+  line-height: 1.7;
+}
+
+/* sections that own a full-bleed list cancel the side padding */
+.sec-bleed { padding-left: 0; padding-right: 0; }
+.sec-bleed > .sec-head { margin-left: 40px; margin-right: 40px; }
+
+/* ============================================================
+   The side rail
+   ============================================================ */
+.rail {
+  position: fixed;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 6px;
+  font-family: var(--sans);
+}
+
+.rail-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  color: var(--ink);
+}
+
+/* the hairline is the rail; the dot is where you are */
+.rail-tick {
+  display: block;
+  width: 16px;
+  height: 1px;
+  background: color-mix(in srgb, var(--ink) 38%, transparent);
+  transition:
+    width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease;
+}
+.rail-link:hover .rail-tick { width: 26px; background: var(--ink); }
+.rail-link.on .rail-tick { width: 30px; background: var(--ink); height: 2px; }
+
+.rail-name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.34s ease,
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rail:hover .rail-name,
+.rail-link:focus-visible .rail-name { opacity: 0.55; transform: none; }
+.rail-link.on .rail-name { opacity: 1; transform: none; }
+
+.rail-out .rail-tick {
+  width: 16px;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 46%, transparent);
+  background: none;
+  height: 0;
+}
+.rail-out:hover .rail-tick { width: 26px; border-top-color: var(--ink); }
+
+/* ============================================================
+   Works
+
+   The timeline and the constellation used to open their own
+   pages, so they carried a screen's worth of padding at the
+   top. Inside a section that job belongs to the section head.
+   ============================================================ */
+/* Works is full-bleed, so the timeline keeps its own 40px
+   gutter. About is not, so the constellation drops its gutter
+   rather than paying for it twice. */
+.sec .tl,
+.sec .pr { padding-top: 0; padding-bottom: 6vh; }
+.sec .cn { padding: 2vh 0 0; }
+
+.works-note {
+  padding: 26px 40px 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 52%, var(--bg));
+}
+
+/* ============================================================
+   Playground teaser
+
+   The one place that is still its own page, so it gets a card
+   that looks like a door rather than a list row.
+   ============================================================ */
+.pg-teaser {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 30px;
+  padding: 46px 40px;
+  border: 1px solid var(--ink);
+  transition: background 0.4s ease, color 0.4s ease;
+}
+.pg-teaser:hover { background: var(--ink); color: var(--bg); }
+.pg-teaser-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(34px, 5.5vw, 74px);
+  line-height: 1;
+}
+.pg-teaser-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+.pg-teaser-list span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: 1px solid color-mix(in srgb, currentColor 40%, transparent);
+  border-radius: 999px;
+  padding: 6px 13px;
+}
+.pg-teaser-arr {
+  font-size: clamp(26px, 4vw, 46px);
+  transform: rotate(-45deg);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.pg-teaser:hover .pg-teaser-arr { transform: rotate(0deg); }
+
+/* ============================================================
+   Projects
+
+   The section is now a single interaction: the vertical thread
+   in css/timeline.css. The poster-card grid that used to sit
+   under it has gone — it listed the same three projects a
+   second time, immediately below the thread that already
+   listed them.
+   ============================================================ */
+
+/* ---------- The way onward ---------- */
+.works-foot,
+.page-foot { padding: 8vh 40px 4vh; }
+.works-next {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+.works-next .micro { color: color-mix(in srgb, var(--ink) 48%, var(--bg)); }
+.works-next-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.works-next:hover .works-next-name { background-size: 100% 1px; }
+.works-next-arr {
+  font-size: clamp(20px, 2.6vw, 32px);
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.works-next:hover .works-next-arr { transform: translateX(9px); }
+
+/* ============================================================
+   Contact
+   ============================================================ */
+.sec .contact-body { padding: 0; }
+.sec .about-body { padding: 0 0 8vh; max-width: none; }
+.sec .about-facts-wrap { padding: 0 0 8vh; max-width: none; }
+.sec .rz { padding: 0; max-width: none; }
+
+/* the four facts under the address */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 9vh;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+  border-block: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.contact-cell {
+  background: var(--bg);
+  padding: 26px 24px 30px;
+}
+.contact-cell .micro { color: color-mix(in srgb, var(--ink) 45%, var(--bg)); }
+.contact-cell p {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* the constellation leads the home page now, so it loses its own
+   top padding and inherits the section's */
+.sec .cn { padding-top: 2vh; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1180px) {
+  .rail { left: 8px; }
+  .rail-name { display: none; }
+}
+@media (max-width: 1100px) {
+  .contact-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 820px) {
+  .rail { display: none; }
+  .sec { padding: 9vh 20px 0; }
+  .sec-bleed > .sec-head { margin-left: 20px; margin-right: 20px; }
+  .sec-head { margin-bottom: 4vh; }
+  .works-note { padding: 20px 20px 0; }
+  .works-foot,
+  .page-foot { padding: 6vh 20px 3vh; }
+  .contact-grid { grid-template-columns: 1fr; margin-top: 6vh; }
+  .pg-teaser { padding: 32px 22px; grid-template-columns: 1fr; align-items: start; gap: 18px; }
+}

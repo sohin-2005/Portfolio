@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#000">
+  <!-- two lobes, mirrored about x=12, each a thick crescent that
+       tapers to a point at the top. Thin outlines vanish at the
+       22px this is actually drawn at, so the waist is deliberately
+       heavy: roughly 4.5 units between the outer and inner arc. -->
+  <path d="M1 6C1.6 14.4 4 18.2 6.6 18.2 9.2 18.2 11.2 12.4 11.8 6 11 10.6 9.3 13.6 6.9 13.6 4.5 13.6 2.2 10.6 1 6Z"/>
+  <path d="M23 6C22.4 14.4 20 18.2 17.4 18.2 14.8 18.2 12.8 12.4 12.2 6 13 10.6 14.7 13.6 17.1 13.6 19.5 13.6 21.8 10.6 23 6Z"/>
+</svg>

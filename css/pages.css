@@ -59,7 +59,6 @@
   line-height: 1.35;
 }
 .about-body .cols p { font-size: 14px; line-height: 1.9; font-weight: 500; color: color-mix(in srgb, var(--ink) 87%, var(--bg)); margin-bottom: 20px; }
-.about-facts { padding: 0 40px 12vh; max-width: 1200px; }
 .fact-row {
   display: flex;
   justify-content: space-between;
@@ -69,6 +68,22 @@
   font-weight: 600;
 }
 .fact-row span:last-child { color: color-mix(in srgb, var(--ink) 65%, var(--bg)); font-weight: 500; }
+
+/* ---- About page: facts table photo ---- */
+
+.about-facts-wrap{
+  position: relative;
+  max-width: 1200px;
+  padding: 0 40px 12vh;
+}
+
+.about-facts-wrap .about-facts{
+  padding: 0;
+  max-width: none;
+}
+
+/* The small photo that used to sit beside the facts table moved
+   into the about intro as the treated portrait — see about.css. */
 
 /* ---------- Resume blocks (About) ---------- */
 .rz { padding: 0 40px 12vh; max-width: 1200px; }
@@ -82,7 +97,39 @@
   padding-top: 16px;
   margin-bottom: 24px;
 }
-.rz-item { margin-bottom: 26px; }
+/* Two columns: a fixed gutter for the logo, and everything else.
+   Fixed rather than auto so every row lines up down the same
+   edge whether it has a mark or not — a gutter that collapses on
+   the rows without one is worse than a little empty space. */
+.rz-item {
+  margin-bottom: 26px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: start;
+}
+.rz-item > :not(.rz-mark) { grid-column: 2; }
+
+.rz-mark {
+  grid-column: 1;
+  grid-row: 1;
+  width: 22px;
+  height: 22px;
+  margin-top: -2px;
+  /* painted by js/marks.js, and left blank until it has something
+     to paint, so a logo that fails to load is invisible rather
+     than a broken box */
+  background-color: color-mix(in srgb, var(--ink) 74%, var(--bg));
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.rz-mark.is-on { opacity: 1; }
 .rz-head {
   display: flex;
   justify-content: space-between;
@@ -141,10 +188,13 @@
   cursor: pointer;
 }
 .pg-cell:hover { background: var(--ink); color: var(--bg); }
-.pg-cell .glyph { font-family: var(--serif); font-style: italic; font-size: 44px; }
+.pg-cell .glyph { font-family: var(--serif); font-style: italic; font-size: 44px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.pg-cell:hover .glyph { transform: rotate(-8deg) scale(1.12); }
 .pg-cell .pg-name { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .pg-cell .pg-desc { font-size: 11px; color: color-mix(in srgb, var(--ink) 58%, var(--bg)); margin-top: 4px; transition: color 0.35s ease; }
 .pg-cell:hover .pg-desc { color: color-mix(in srgb, var(--bg) 65%, transparent); }
+.pg-launch { display: inline-block; transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1); }
+.pg-cell:hover .pg-launch { transform: translate(3px, -3px); }
 
 /* ---------- Contact ---------- */
 .contact-body { padding: 6vh 40px 12vh; }
@@ -195,7 +245,7 @@
   .work-row { grid-template-columns: 44px 1fr 40px; padding: 26px 20px; }
   .work-row .cat, .work-row .year { display: none; }
   .about-body { grid-template-columns: 1fr; padding: 5vh 20px 8vh; }
-  .about-facts { padding: 0 20px 8vh; }
+  .about-facts-wrap { padding: 0 20px 8vh; }
   .rz { padding: 0 20px 8vh; }
   .contact-body { padding: 5vh 20px 8vh; }
 }

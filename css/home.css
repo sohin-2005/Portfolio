@@ -17,69 +17,20 @@
   font-display: swap;
 }
 
-/* ---------- Particle canvas ---------- */
-#particles {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
+/* The standalone particle canvas is gone — ambient scenery owns
+   the drifting layer now, for every page rather than just this
+   one. See js/ambient.js. */
 .home-header, .hero, .main-nav, .bottom, .caption,
-.band, .quotes, .principles, .cta, footer {
+.tl, .pr, .cn, footer {
   position: relative;
   z-index: 1;
 }
 
-/* ---------- Hero ---------- */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2.5vh 20px 0;
-  user-select: none;
-}
-.hero .first {
-  font-family: 'DX Alegant', var(--serif);
-  font-style: italic;
-  font-weight: 200;
-  font-size: clamp(64px, 12.5vw, 175px);
-  letter-spacing: 0.01em;
-  line-height: 1.08;
-  cursor: pointer;
-}
-.hero .hl {
-  display: inline-block;
-  animation: heroL 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-@keyframes heroL {
-  from { opacity: 0; transform: translateY(0.35em) rotate(3deg); }
-  to { opacity: 1; transform: translateY(0) rotate(0deg); }
-}
-.hero-sub {
-  margin-top: 1.2vh;
-  letter-spacing: 0.22em;
-  animation: heroL 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.7s both;
-}
-
-/* ---------- Cat dash easter egg (click the name) ---------- */
-.cat-dash {
-  position: fixed;
-  bottom: 10px;
-  left: -90px;
-  z-index: 150;
-  pointer-events: none;
-  animation: catRun 2.6s linear forwards;
-}
-.cat-dash svg { width: 64px; height: auto; animation: catBob 0.22s ease-in-out infinite alternate; }
-@keyframes catRun { to { transform: translateX(calc(100vw + 180px)); } }
-@keyframes catBob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero .hl, .hero-sub { animation: none; }
-  .cat-dash { display: none; }
-}
+/* ---------- Hero ----------
+   The name card moved to css/hero.css — it grew a plinth, a
+   drawn wordmark and three planes of its own, and it was
+   crowding this file out. Only the DX Alegant face above still
+   lives here; .sec-title and the page titles use it. */
 
 /* ---------- Main nav ---------- */
 nav.main-nav {
@@ -130,85 +81,10 @@ nav.main-nav {
   max-width: 300px;
   margin: 0 auto;
 }
-.illus { text-align: center; }
-.illus svg { width: min(430px, 88%); height: auto; }
 
-/* ---------- Scene animations ---------- */
-.scene .leaf, .scene .tail, .scene .armF, .scene .headG,
-.scene .cl, .scene .eyes, .scene .steam, .scene .rays {
-  transform-box: fill-box;
-}
-.scene .leaf { transform-origin: 50% 100%; animation: sway 5s ease-in-out infinite; }
-.scene .l2 { animation-delay: -1.6s; }
-.scene .l3 { animation-delay: -3.2s; }
-@keyframes sway {
-  0%, 100% { transform: rotate(-2.5deg); }
-  50% { transform: rotate(3deg); }
-}
-.scene .tail { transform-origin: 100% 100%; animation: wag 3s ease-in-out infinite; }
-@keyframes wag {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-14deg); }
-}
-.scene .armF { transform-origin: 100% 0%; animation: typing 0.48s ease-in-out infinite alternate; }
-@keyframes typing {
-  from { transform: rotate(-1deg); }
-  to { transform: rotate(5deg); }
-}
-.scene .headG { transform-origin: 50% 100%; animation: nod 4.6s ease-in-out infinite; }
-@keyframes nod {
-  0%, 100% { transform: rotate(0deg); }
-  30% { transform: rotate(2deg); }
-  60% { transform: rotate(-1.5deg); }
-}
-.scene .cl { transform-origin: 0% 50%; animation: codeType 2.8s linear infinite; }
-.scene .cl2 { animation-delay: -0.7s; }
-.scene .cl3 { animation-delay: -1.4s; }
-.scene .cl4 { animation-delay: -2.1s; }
-@keyframes codeType {
-  0% { transform: scaleX(0.15); }
-  45%, 60% { transform: scaleX(1); }
-  100% { transform: scaleX(0.15); }
-}
-.scene .steam { opacity: 0; animation: steam 3.4s ease-in-out infinite; }
-.scene .s2 { animation-delay: -1.7s; }
-@keyframes steam {
-  0% { opacity: 0; transform: translateY(3px); }
-  35% { opacity: 0.5; }
-  70%, 100% { opacity: 0; transform: translateY(-7px); }
-}
-.scene .eyes { transform-origin: 50% 50%; animation: blink 5.5s infinite; }
-@keyframes blink {
-  0%, 91%, 100% { transform: scaleY(1); }
-  94%, 96% { transform: scaleY(0.08); }
-}
+/* Scene and light-bulb motion moved to css/scenes.css, which is
+   shared by the vignette on every page. */
 
-/* ---------- Light bulb (click to toggle) ---------- */
-#bulb { cursor: pointer; outline: none; }
-#bulb .halo { opacity: 0; transition: opacity 0.45s ease; }
-#bulb .rays line { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; transition: stroke 0.3s ease; }
-#bulb .glass { transition: fill 0.35s ease; }
-#bulb .fil { transition: stroke 0.35s ease; }
-#bulb:focus-visible .glass, #bulb:hover .glass { stroke-width: 4; }
-#bulb.lit .halo { opacity: 1; animation: glowPulse 2.4s ease-in-out infinite; }
-#bulb.lit .glass { fill: url(#gBulb); }
-#bulb.lit .fil { stroke: #B96A00; }
-#bulb.lit .rays { transform-origin: 50% 50%; animation: rayPulse 2.4s ease-in-out infinite; }
-#bulb.lit .rays line { stroke: #E8940C; }
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.75; }
-  50% { opacity: 1; }
-}
-@keyframes rayPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.12); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scene .leaf, .scene .tail, .scene .armF, .scene .headG,
-  .scene .cl, .scene .eyes, .scene .steam,
-  #bulb.lit .halo, #bulb.lit .rays { animation: none; }
-}
 .caption {
   text-align: center;
   font-size: 11px;
@@ -217,13 +93,6 @@ nav.main-nav {
   color: color-mix(in srgb, var(--ink) 73%, var(--bg));
   padding-bottom: 34px;
 }
-
-/* ---------- Theme-aware scene inks ---------- */
-.scene [fill="#111"] { fill: var(--ink); }
-.scene [stroke="#111"] { stroke: var(--ink); }
-.scene [fill="#ECECEC"] { fill: var(--bg); }
-.scene [stroke="#ECECEC"] { stroke: var(--bg); }
-.scene [stroke="rgba(17,17,17,0.25)"] { stroke: color-mix(in srgb, var(--ink) 25%, transparent); }
 
 /* ---------- Scroll hint ---------- */
 .scroll-hint {
@@ -240,130 +109,18 @@ nav.main-nav {
   50% { transform: translateY(3px); }
 }
 
-/* ---------- Marquee band ---------- */
-.band {
-  background: var(--ink);
-  color: var(--bg);
-  overflow: hidden;
-  padding: 16px 0;
-  margin-top: 4vh;
-  transform: rotate(-1.1deg) scale(1.02);
-}
-.band-track {
-  display: flex;
-  align-items: baseline;
-  gap: 34px;
-  width: max-content;
-  animation: bandMove 24s linear infinite;
-}
-.band span {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.band i {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 17px;
-  white-space: nowrap;
-}
-.band em { font-style: normal; font-size: 12px; }
-@keyframes bandMove {
-  to { transform: translateX(-50%); }
-}
+/* The quotes block that sat here was replaced by the projects
+   rail — its styles live in css/projects.css. */
 
-/* ---------- Quotes ---------- */
-.quotes { padding: 14vh 40px 10vh; text-align: center; }
-.quote-text {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(22px, 3.6vw, 42px);
-  line-height: 1.4;
-  max-width: 880px;
-  margin: 34px auto 0;
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
-.quotes.fading .quote-text { opacity: 0; transform: translateY(10px); }
-.quote-author { margin-top: 22px; transition: opacity 0.45s ease; }
-.quotes.fading .quote-author { opacity: 0; }
-.quote-dots { display: flex; justify-content: center; gap: 10px; margin-top: 34px; }
-.quote-dots button {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  border: 1.5px solid var(--ink);
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-.quote-dots button.active { background: var(--ink); transform: scale(1.25); }
+/* The standalone call-to-action block is gone: Contact is now a
+   section of this page, so the page ends on the real thing
+   rather than on a link to it. */
 
-/* ---------- Principles ---------- */
-.principles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
-  padding: 8vh 60px;
-  border-top: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
-  max-width: 1250px;
-  margin: 0 auto;
-}
-.principle h3 {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(20px, 2.2vw, 27px);
-  margin: 14px 0 12px;
-  line-height: 1.3;
-}
-.principle p {
-  font-size: 13px;
-  line-height: 1.8;
-  font-weight: 500;
-  color: color-mix(in srgb, var(--ink) 65%, var(--bg));
-}
-
-/* ---------- CTA ---------- */
-.cta { padding: 10vh 40px 12vh; text-align: center; }
-.cta-link {
-  display: inline-block;
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(36px, 7vw, 96px);
-  line-height: 1.15;
-  margin-top: 18px;
-  position: relative;
-}
-.cta-link::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: 2px;
-  width: 100%; height: 2px;
-  background: var(--ink);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-}
-.cta-link:hover::after { transform: scaleX(1); }
-.cta-arr { display: inline-block; transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1); }
-.cta-link:hover .cta-arr { transform: translateX(14px); }
-
-/* ---------- Scroll reveal ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.in { opacity: 1; transform: none; }
+/* Scroll reveal lives in css/base.css — it is shared by every
+   section now, not just the home page. */
 
 @media (prefers-reduced-motion: reduce) {
-  .band-track, .scroll-hint { animation: none; }
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .scroll-hint { animation: none; }
 }
 
 /* ---------- Responsive ---------- */
@@ -371,6 +128,4 @@ nav.main-nav {
   nav.main-nav { grid-template-columns: repeat(2, 1fr); padding: 4vh 20px 0; row-gap: 28px; }
   .copyright { display: none; }
   .bottom { grid-template-columns: 1fr; padding: 5vh 24px 20px; gap: 44px; }
-  .principles { grid-template-columns: 1fr; padding: 7vh 24px; gap: 34px; }
-  .quotes { padding: 10vh 24px 8vh; }
 }

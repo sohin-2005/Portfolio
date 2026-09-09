@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Sohin Santhosh</title>
+<meta name="description" content="Selected projects by Sohin Santhosh — full-stack builds in finance, health and machine learning, with live sites and source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/scenes.css">
+<link rel="stylesheet" href="css/dash.css">
+<link rel="stylesheet" href="css/projects.css">
+<link rel="stylesheet" href="css/route.css">
+<link rel="stylesheet" href="css/ambient.css">
+<link rel="stylesheet" href="css/flora.css">
+<script src="js/theme.js"></script>
+<script src="js/leaves.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body data-page="projects">
+
+<nav class="rail" aria-label="Sections">
+  <a class="rail-link" href="projects.html" aria-current="page"><span class="rail-tick"></span><span class="rail-name">Projects</span></a>
+  <a class="rail-link rail-out" href="about.html"><span class="rail-tick"></span><span class="rail-name">About</span></a>
+  <a class="rail-link rail-out" href="playground.html"><span class="rail-tick"></span><span class="rail-name">Playground</span></a>
+  <a class="rail-link rail-out" href="contact.html"><span class="rail-tick"></span><span class="rail-name">Contact</span></a>
+</nav>
+
+<header class="home-header sub-header" id="top">
+  <a class="header-left home-link" href="index.html">
+    <span class="asterisk">✳</span>
+    <span class="label">Sohin — Folio Vol.1</span>
+  </a>
+  <div class="header-right label">Projects<br>01—</div>
+</header>
+
+<div class="page-title-row">
+  <h1 class="page-title">Projects</h1>
+  <span class="page-count" id="projCount"></span>
+</div>
+
+<main id="page" class="page">
+
+<!-- No section heading: the page title above already says
+     Projects, and a "Selected work" under it was the same
+     sentence twice. aria-labelledby went with the h2 it pointed
+     at — a dangling reference labels a section with nothing —
+     and the page's own h1 names this well enough. -->
+<section class="sec sec-bleed" data-section aria-label="Projects">
+  <div class="sec-head sec-head-bare">
+    <span class="sec-num micro">01</span>
+    <p class="sec-note">Scroll sideways. Open a shot for the full case study, or go straight to the site or the code.</p>
+  </div>
+
+  <!-- built by js/projects.js from js/projects-data.js -->
+  <div class="pr" id="projRail">
+    <div class="pr-top">
+      <div class="pr-nav">
+        <button class="pr-nav-prev" type="button" aria-label="Previous projects">←</button>
+        <button class="pr-nav-next" type="button" aria-label="Next projects">→</button>
+      </div>
+    </div>
+    <!-- a scroll container is a focusable region: without tabindex
+         a keyboard user can reach the cards but cannot scroll to
+         see them -->
+    <div class="pr-rail" tabindex="0" role="region" aria-label="Projects, scroll sideways"></div>
+  </div>
+
+  <div class="works-foot">
+    <a class="works-next" href="about.html">
+      <span class="micro">Next</span>
+      <span class="works-next-name">About</span>
+      <span class="works-next-arr" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span class="label">Sohin — Folio Vol.1</span>
+</footer>
+
+<script src="js/motion.js"></script>
+<script src="js/router.js"></script>
+<script src="js/main.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/projects-data.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/ambient.js"></script>
+<script src="js/flora.js"></script>
+<script src="js/dock.js"></script>
+<!-- spring reveals for the section head, same as every other
+     page that has one. project.html and playground.html carry
+     none of this file's targets, so they are left without it. -->
+<script type="module" src="js/lively.js"></script>
+<script>
+  /* the count beside the page title, from the one source of truth */
+  (function () {
+    const n = (window.__PROJECT_ORDER || []).length;
+    const el = document.getElementById('projCount');
+    if (el && n) el.textContent = '(' + String(n).padStart(2, '0') + ')';
+  })();
+</script>
+</body>
+</html>

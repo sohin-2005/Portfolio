@@ -1,0 +1,185 @@
+/* ============================================================
+   route.css — moving between pages
+
+   Works, About, Contact and Playground are real documents again.
+   The risk with real documents is the blink: a white gap, the
+   chrome jumping, the whole page re-assembling in front of you.
+   Three things stop that here.
+
+     1. The persistent furniture — header, rail, dock, footer —
+        is given a view-transition-name of its own, so the
+        browser carries it across the navigation instead of
+        cross-fading it. It genuinely does not move.
+
+     2. Only the <main> content transitions: the outgoing page
+        settles and dims, the incoming one rises into place
+        behind it. Nothing is ever blank.
+
+     3. Browsers without cross-document view transitions get the
+        same choreography from .route-out / .route-in, driven by
+        js/router.js, so the two paths look identical.
+
+   Everything here is transform and opacity only — no layout is
+   read or written during the move, which is what keeps it
+   smooth on a slow machine.
+   ============================================================ */
+
+/* ---------- Native cross-document transitions ---------- */
+@view-transition { navigation: auto; }
+
+/* The furniture is carried, not faded. Each needs its own name:
+   two elements may never share one in a single snapshot. */
+.rail          { view-transition-name: rail; }
+.home-header   { view-transition-name: masthead; }
+footer         { view-transition-name: footing; }
+.dock          { view-transition-name: dock; }
+.amb-stage     { view-transition-name: ambient; }
+
+/* Carried elements should hold still rather than cross-fade. */
+::view-transition-group(rail),
+::view-transition-group(masthead),
+::view-transition-group(footing),
+::view-transition-group(dock),
+::view-transition-group(ambient) {
+  animation-duration: 0.01s;
+}
+::view-transition-old(rail),
+::view-transition-new(rail),
+::view-transition-old(masthead),
+::view-transition-new(masthead),
+::view-transition-old(footing),
+::view-transition-new(footing),
+::view-transition-old(dock),
+::view-transition-new(dock),
+::view-transition-old(ambient),
+::view-transition-new(ambient) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* The content itself gets the move. */
+main.page { view-transition-name: page; }
+
+::view-transition-old(page) {
+  animation: routeOut 0.34s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+::view-transition-new(page) {
+  animation: routeIn 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.06s both;
+}
+
+@keyframes routeOut {
+  from { opacity: 1; transform: translateY(0)     scale(1); filter: blur(0); }
+  to   { opacity: 0; transform: translateY(-14px) scale(0.992); filter: blur(3px); }
+}
+@keyframes routeIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+    clip-path: inset(0 0 6% 0 round 18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+
+/* the root cross-fade would double up over the two above */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; }
+
+/* ============================================================
+   The fallback path — same choreography, hand-driven
+
+   js/router.js adds .route-out to the document before it
+   navigates, and every page starts life with .route-in.
+   ============================================================ */
+
+/* Incoming: the content rises as the page settles. Declared on
+   <html> so it starts on the very first frame, before scripts. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.vt) main.page {
+    animation: routeIn 0.56s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  /* the home page hands over from the intro instead */
+  html.intro-on main.page { animation: none; }
+}
+
+html.route-out main.page {
+  animation: routeOut 0.3s cubic-bezier(0.5, 0, 0.75, 0) both;
+}
+
+/* While a move is in flight nothing should react to the pointer
+   — a second click mid-transition is the classic way to end up
+   on the wrong page. */
+html.route-out { pointer-events: none; }
+
+/* A thread of ink runs the width of the screen while the next
+   page is being fetched, so a slow network still reads as
+   progress rather than as a freeze. */
+.route-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  z-index: 400;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--ink) 70%, transparent) 40%,
+    var(--ink) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.route-bar.on {
+  opacity: 1;
+  animation: routeBar 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes routeBar {
+  0%   { transform: scaleX(0); }
+  60%  { transform: scaleX(0.72); }
+  100% { transform: scaleX(0.94); }
+}
+.route-bar.done {
+  animation: none;
+  transform: scaleX(1);
+  opacity: 0;
+  transition: transform 0.22s ease, opacity 0.32s ease 0.12s;
+}
+
+/* ============================================================
+   Sub-pages
+   ============================================================ */
+
+/* The masthead on a sub-page is a way home, so it behaves like
+   a link without looking like one until you approach it. */
+.sub-header .home-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease;
+}
+.sub-header .home-link:hover { opacity: 0.62; }
+.sub-header .home-link .asterisk { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.sub-header .home-link:hover .asterisk { transform: rotate(90deg); }
+
+/* A sub-page opens straight into its subject, so it needs the
+   air a home-page section gets from everything above it. */
+.page-lead { padding-top: 18vh; }
+
+@media (max-width: 820px) {
+  .page-lead { padding-top: 13vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.vt) main.page,
+  html.route-out main.page { animation: none; }
+  .route-bar { display: none; }
+  ::view-transition-old(page),
+  ::view-transition-new(page) { animation: none; }
+}
