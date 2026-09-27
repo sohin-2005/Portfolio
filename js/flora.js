@@ -154,16 +154,6 @@
     return el('path', { d: d, class: cls || 'fl-stem' }, svg);
   }
 
-  /* A stem with no leaves on it. dress() is what normally measures a
-     path and publishes --len, which is what the grow animation runs
-     on; anything drawn without it just appears, fully formed, while
-     everything around it is still unfurling. */
-  function drawn(svg, d, delay) {
-    const p = stem(svg, d);
-    p.style.setProperty('--len', p.getTotalLength().toFixed(1));
-    p.style.animationDelay = (delay || 0) + 's';
-    return p;
-  }
 
   /* --- ECO --- */
   const ECO = {
@@ -219,44 +209,6 @@
                   ', ' + (bx + spread * 1.5).toFixed(0) + ' ' + between(r, 4, by * 0.3).toFixed(0);
         dress(svg, stem(svg, d), r, {
           count: Math.round(between(r, 3, 5)), delay: i * 0.18, scale: 0.8, curl: i === 0,
-        });
-      }
-    },
-
-    /* a sprig in a pot.
-
-       The tub is the same one the desk scene draws a few hundred
-       pixels to the right (see plantArt in js/scenes.js): a 52-wide
-       rim over a tub tapering 42 to 32 across 31 of height. Copied
-       deliberately rather than invented — two pots of different
-       proportions on one screen would read as two different hands.
-
-       The pot draws itself first and the stems climb out of it
-       afterwards, which is the order the thing would actually
-       happen in. */
-    potted: function (svg, r, W, H) {
-      const bx = W * 0.5;
-      const RIM_H = 9, BODY_H = 31;
-      const rimY = H - (RIM_H + BODY_H);
-
-      // rim band, then the tub hanging under it
-      drawn(svg, 'M ' + (bx - 26) + ' ' + rimY + ' h 52 v ' + RIM_H + ' h -52 Z', 0);
-      drawn(svg, 'M ' + (bx - 21) + ' ' + (rimY + RIM_H) + ' h 42 l -5 ' + BODY_H + ' h -32 Z', 0.12);
-
-      /* stems start just inside the rim, so they read as growing out
-         of the soil rather than standing behind the pot */
-      const arms = Math.round(between(r, 3, 4));
-      for (let i = 0; i < arms; i++) {
-        const spread = (i - (arms - 1) / 2) * between(r, 26, 42);
-        const d = 'M ' + bx.toFixed(0) + ' ' + (rimY + 3).toFixed(0) +
-                  ' C ' + (bx + spread * 0.35).toFixed(0) + ' ' + (rimY * 0.66).toFixed(0) +
-                  ', ' + (bx + spread).toFixed(0) + ' ' + (rimY * 0.4).toFixed(0) +
-                  ', ' + (bx + spread * 1.3).toFixed(0) + ' ' + between(r, 6, rimY * 0.26).toFixed(0);
-        dress(svg, stem(svg, d), r, {
-          count: Math.round(between(r, 4, 6)),
-          delay: 0.34 + i * 0.16,
-          scale: 0.82,
-          curl: i === arms - 1,
         });
       }
     },
@@ -365,11 +317,11 @@
      budget — enough that you notice it, not enough to compete
      with what you came to read. */
   /* A rule can fix its height in pixels, or ask for a fraction of
-     what it is anchored to. The fraction matters for anything that
-     has to line up with a drawing inside the anchor: the potted
-     plant stands on the desk scene's ground line, and that line is
-     always ~89% down the illustration however wide the viewport
-     makes it. A fixed height only holds at one window size. */
+     what it is anchored to (hPct). The fraction is for anything
+     that has to line up with a drawing inside the anchor — a line
+     that sits a fixed proportion of the way down an illustration
+     stays there however wide the viewport makes it, where a fixed
+     height only holds at one window size. */
   function boxH(rule, b) {
     if (rule.h) return rule.h;
     if (rule.hPct) return b.h * rule.hPct;
@@ -377,8 +329,7 @@
   }
 
   const RULES = [
-    /* home — one at the foot of the hero, one beside the thread */
-    { sel: '.bottom .illus',       kind: 'potted',  place: 'left',   w: 130, hPct: 0.89, edge: 26 },
+    /* home — one beside the thread */
     { sel: '.works-next',          kind: 'arch',    place: 'around', padX: 70, padY: 56 },
 
     /* about — the portrait earns one, the opening line one */
@@ -506,10 +457,9 @@
         } else if (rule.place === 'left') {
           /* `edge` pins the growth to a fixed inset from the page's
              left margin instead of hanging it off the anchor's side.
-             The anchor still supplies the vertical, which is the
-             whole point for the potted plant: it has to keep
-             standing on the desk scene's ground line however far
-             across the page it is moved. */
+             The anchor still supplies the vertical, so a growth can
+             be moved across the page and stay level with whatever
+             it was anchored to. */
           const gw = rule.w || 130;
           box = {
             left: rule.edge != null ? rule.edge : b.left - gw - 14,

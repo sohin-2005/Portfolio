@@ -95,84 +95,180 @@
    Home scene — the five acts
    ============================================================ */
 
-/* Which build of the figure is on stage */
-.sc-desk .fig-sit,
-.sc-desk .walker { transition: opacity 0.32s ease; }
+/* ============================================================
+   The rule every act below is written to
 
-.sc-desk .fig-sit { opacity: 0; }
+   An act swap removes one set of animations and starts the next
+   in the same frame. Whatever value the outgoing animation was
+   holding is thrown away and the incoming one starts from its own
+   first keyframe — so if those two numbers differ, the part
+   jumps. That was the whole of the old jerkiness: legs still
+   striding after he had stopped and then snapping straight, a
+   head frozen mid-tilt and then yanked to -6deg, a gap where
+   neither the standing nor the seated figure was on screen, and
+   a teleport from the desk back to the far left when the loop
+   came round.
+
+   So each act starts every animated part on exactly the value the
+   previous act left it on. Anything with a delay uses `both`, so
+   it holds its starting value through the delay instead of
+   falling back to whatever the base style says. The loop now
+   closes on him walking off, faded, so the next walk-in begins
+   from where he disappeared.
+
+     walk   in from the left, three strides, stops at the desk
+     think  hand to chin, one slow ponder, bubble with dots
+     idea   the bulb pops, a small lift, the hand comes down
+     sit    steps to the chair and cross-fades into the seated build
+     code   seated, typing
+     rise   cross-fades back and steps up from the chair
+     leave  turns, walks off to the left and fades
+   ============================================================ */
+
+/* ---------- which build is on stage ---------- */
+.sc-desk .walker { opacity: 0; }
+.sc-desk.act-think .walker,
+.sc-desk.act-idea .walker { opacity: 1; }
+
+.sc-desk .fig-sit { opacity: 0; transition: opacity 0.5s ease; }
+.sc-desk.act-sit .fig-sit { opacity: 1; transition: opacity 0.55s ease 0.6s; }
 .sc-desk.act-code .fig-sit,
 .sc-desk.still .fig-sit { opacity: 1; }
 
-.sc-desk .walker { opacity: 1; }
-.sc-desk.act-code .walker,
-.sc-desk.still .walker { opacity: 0; }
+/* the turn in "leave" scales the standing build about its feet */
+.sc-desk .fig-stand { transform-origin: 50% 100%; }
 
-/* the desk lamp answers the idea */
-.sc-desk.act-idea #bulb .halo { opacity: 1; animation: scGlow 2.4s ease-in-out infinite; }
-.sc-desk.act-idea #bulb .glass { fill: #FFE8B0; }
-.sc-desk.act-idea #bulb .fil { stroke: #B96A00; }
-.sc-desk.act-idea #bulb .rays { transform-origin: 50% 50%; animation: scRay 2.4s ease-in-out infinite; }
-.sc-desk.act-idea #bulb .rays line { stroke: #E8940C; }
-
-/* --- the walk --- */
-.sc-desk .walker { animation: none; }
-.sc-desk.act-walk .walker { animation: scWalkIn 3.4s cubic-bezier(0.42, 0, 0.58, 1) forwards; }
-@keyframes scWalkIn {
-  from { translate: -290px 0; }
-  to   { translate: 0 0; }
+/* ---------- the pendulums ----------
+   A leg is a pendulum: still at each end of the swing, fastest
+   through the middle. An ease-in-out on every segment gets that
+   wrong — it also stops the leg dead as it passes straight down,
+   which is the hitch you could see on every step. Each segment
+   carries its own curve instead: out of the vertical, across
+   between the extremes, back into the vertical. One cycle begins
+   and ends hanging straight, so any whole number of cycles leaves
+   the limb exactly where the next act expects it. */
+@keyframes scDStep {
+  0%   { rotate: 0deg;   animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1); }
+  25%  { rotate: 22deg;  animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  75%  { rotate: -22deg; animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0); }
+  100% { rotate: 0deg; }
 }
-/* he holds at the desk through the think, then slides onto the chair */
-.sc-desk.act-think .walker,
-.sc-desk.act-idea .walker { translate: 0 0; }
-.sc-desk.act-sit .walker { animation: scSitDown 1.1s cubic-bezier(0.5, 0, 0.6, 1) forwards; }
-@keyframes scSitDown {
-  from { translate: 0 0; opacity: 1; }
-  70%  { translate: 42px 0; opacity: 1; }
-  to   { translate: 50px 6px; opacity: 0; }
+@keyframes scDArm {
+  0%   { rotate: 0deg;   animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1); }
+  25%  { rotate: -15deg; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  75%  { rotate: 15deg;  animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0); }
+  100% { rotate: 0deg; }
 }
-.sc-desk.act-rise .walker { animation: scRise 1.2s cubic-bezier(0.34, 1.3, 0.64, 1) forwards; }
-@keyframes scRise {
-  from { translate: 50px 6px; opacity: 0; }
-  40%  { opacity: 1; }
-  to   { translate: 0 0; opacity: 1; }
+@keyframes scDBob {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -2.5px; }
 }
 
-/* legs and arms only cycle while he is actually moving */
+@keyframes scDWalkIn  { from { translate: -280px 0; } to { translate: 0 0; } }
+@keyframes scDWalkOut { from { translate: 0 0; }      to { translate: -280px 0; } }
+@keyframes scDFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scDFadeOut { from { opacity: 1; } to { opacity: 0; } }
+@keyframes scDSit     { from { translate: 0 0; }      to { translate: 46px 5px; } }
+@keyframes scDRise    { from { translate: 46px 5px; } to { translate: 0 0; } }
+@keyframes scDTurn    { from { scale: 1 1; } to { scale: -1 1; } }
+@keyframes scDChinUp   { from { rotate: 0deg; }    to { rotate: -128deg; } }
+@keyframes scDChinDown { from { rotate: -128deg; } to { rotate: 0deg; } }
+@keyframes scDPonder {
+  0%, 100% { rotate: 0deg; }
+  30%      { rotate: -7deg; }
+  65%      { rotate: 3deg; }
+}
+@keyframes scDAha     { 0%, 100% { translate: 0 0; } 40% { translate: 0 -6px; } }
+@keyframes scDAhaHead { 0%, 100% { rotate: 0deg; }   40% { rotate: 4deg; } }
+@keyframes scDDotsOut { from { opacity: 0.6; } to { opacity: 0; } }
+
+/* limbs pivot at the hip and the shoulder */
 .sc-desk .fig-stand .legF,
-.sc-desk .fig-stand .legB { transform-origin: 50% 0%; }
+.sc-desk .fig-stand .legB,
 .sc-desk .fig-stand .armF,
 .sc-desk .fig-stand .armB { transform-origin: 50% 0%; }
+.sc-desk .fig-stand .headG { transform-origin: 50% 100%; }
 
-.sc-desk.act-walk .legF,
-.sc-desk.act-rise .legF { animation: scStride 0.56s ease-in-out infinite alternate; }
-.sc-desk.act-walk .legB,
-.sc-desk.act-rise .legB { animation: scStride 0.56s ease-in-out infinite alternate-reverse; }
-.sc-desk.act-walk .armF,
-.sc-desk.act-rise .armF { animation: scSwing 0.56s ease-in-out infinite alternate-reverse; }
-.sc-desk.act-walk .armB,
-.sc-desk.act-rise .armB { animation: scSwing 0.56s ease-in-out infinite alternate; }
-.sc-desk.act-walk .fig-stand,
-.sc-desk.act-rise .fig-stand { animation: scBob 0.28s ease-in-out infinite alternate; }
-.sc-desk.act-sit .legF { animation: scStride 0.4s ease-in-out infinite alternate; }
-.sc-desk.act-sit .legB { animation: scStride 0.4s ease-in-out infinite alternate-reverse; }
+/* ---------- walk (3.9s) ----------
+   3.3s of travel and exactly three 1.1s strides, so the feet come
+   to rest on the same frame the body does. Arms swing against the
+   legs; the body bobs twice per stride. */
+.sc-desk.act-walk .walker {
+  animation:
+    scDWalkIn 3.3s cubic-bezier(0.35, 0.05, 0.4, 1) both,
+    scDFadeIn 0.5s ease both;
+}
+.sc-desk.act-walk .legF { animation: scDStep 1.1s 3; }
+.sc-desk.act-walk .legB { animation: scDStep 1.1s 3 reverse; }
+.sc-desk.act-walk .armF { animation: scDArm 1.1s 3 reverse; }
+.sc-desk.act-walk .armB { animation: scDArm 1.1s 3; }
+.sc-desk.act-walk .fig-stand { animation: scDBob 0.55s ease-in-out 6; }
 
-@keyframes scStride {
-  from { rotate: -24deg; }
-  to   { rotate: 24deg; }
+/* ---------- think (3.8s) ---------- */
+.sc-desk.act-think .armF {
+  animation: scDChinUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
-@keyframes scSwing {
-  from { rotate: -19deg; }
-  to   { rotate: 19deg; }
-}
-@keyframes scBob {
-  from { translate: 0 0; }
-  to   { translate: 0 -2.5px; }
+.sc-desk.act-think .fig-stand .headG {
+  animation: scDPonder 3.2s ease-in-out 0.4s both;
 }
 
-/* --- the think --- */
-.sc-desk .think { opacity: 0; }
+/* ---------- idea (2.2s) ----------
+   Starts with the hand still at the chin — where think left it —
+   and lowers it once the bulb is up. */
+.sc-desk.act-idea .armF {
+  animation: scDChinDown 0.55s cubic-bezier(0.45, 0, 0.3, 1) 1s both;
+}
+.sc-desk.act-idea .fig-stand { animation: scDAha 0.9s ease-in-out 0.1s both; }
+.sc-desk.act-idea .fig-stand .headG { animation: scDAhaHead 0.9s ease-in-out 0.1s both; }
+
+/* ---------- sit (1.6s) ----------
+   He steps toward the chair and fades as the seated build fades
+   in over the same stretch, so someone is always on screen. */
+.sc-desk.act-sit .walker {
+  animation:
+    scDSit 1.2s ease-in-out both,
+    scDFadeOut 0.55s ease 0.65s both;
+}
+.sc-desk.act-sit .legF { animation: scDStep 1.2s 1; }
+.sc-desk.act-sit .legB { animation: scDStep 1.2s 1 reverse; }
+
+/* ---------- rise (1.5s) ---------- */
+.sc-desk.act-rise .walker {
+  animation:
+    scDRise 1.2s ease-in-out both,
+    scDFadeIn 0.5s ease both;
+}
+.sc-desk.act-rise .legF { animation: scDStep 1.2s 1 reverse; }
+.sc-desk.act-rise .legB { animation: scDStep 1.2s 1; }
+
+/* ---------- leave (4.1s) ----------
+   A turn — the build narrows to nothing and opens facing the
+   other way — then the walk-in played backwards, fading on its
+   last stretch. The next walk-in starts at that same spot, still
+   invisible, so the loop has no seam. */
+.sc-desk.act-leave .walker {
+  animation:
+    scDWalkOut 3.3s cubic-bezier(0.4, 0, 0.75, 0.85) 0.45s both,
+    scDFadeOut 0.6s ease 3.15s both;
+}
+.sc-desk.act-leave .fig-stand {
+  animation:
+    scDTurn 0.4s ease-in-out both,
+    scDBob 0.55s ease-in-out 0.45s 6;
+}
+.sc-desk.act-leave .legF { animation: scDStep 1.1s 0.45s 3; }
+.sc-desk.act-leave .legB { animation: scDStep 1.1s 0.45s 3 reverse; }
+.sc-desk.act-leave .armF { animation: scDArm 1.1s 0.45s 3 reverse; }
+.sc-desk.act-leave .armB { animation: scDArm 1.1s 0.45s 3; }
+
+/* ---------- the thought bubble ----------
+   It fades as a whole rather than having its parts vanish, so it
+   stays fully drawn through idea and sit and only goes out as a
+   single piece. */
+.sc-desk .think { opacity: 0; transition: opacity 0.4s ease; }
 .sc-desk .think .tb { opacity: 0; transform-origin: 50% 100%; }
-.sc-desk.act-think .think { opacity: 1; }
+.sc-desk.act-think .think,
+.sc-desk.act-idea .think { opacity: 1; }
 .sc-desk.act-think .tb1 { animation: scPop 0.4s cubic-bezier(0.34, 1.6, 0.64, 1) 0.25s forwards; }
 .sc-desk.act-think .tb2 { animation: scPop 0.4s cubic-bezier(0.34, 1.6, 0.64, 1) 0.45s forwards; }
 .sc-desk.act-think .tb3 { animation: scPop 0.5s cubic-bezier(0.34, 1.6, 0.64, 1) 0.65s forwards; }
@@ -188,33 +284,17 @@
   0%, 70%, 100% { opacity: 0.35; translate: 0 0; }
   35%           { opacity: 1;    translate: 0 -2.5px; }
 }
-/* hand comes up to the chin, head tilts over */
-.sc-desk.act-think .armF { animation: scChin 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards; }
-@keyframes scChin {
-  from { rotate: 0deg; }
-  to   { rotate: -128deg; }
-}
-.sc-desk .fig-stand .headG { transform-origin: 50% 100%; }
-.sc-desk.act-think .fig-stand .headG { animation: scPonder 3.6s ease-in-out infinite; }
-@keyframes scPonder {
-  0%, 100% { rotate: 0deg; }
-  30%      { rotate: -7deg; }
-  65%      { rotate: 3deg; }
-}
+/* idea and sit keep the bubble whole; the dots give way to a bulb */
+.sc-desk.act-idea .think .tb,
+.sc-desk.act-sit .think .tb { opacity: 1; scale: 1; }
+.sc-desk.act-idea .td { animation: scDDotsOut 0.3s ease forwards; }
+.sc-desk.act-sit .td { opacity: 0; }
 
-/* --- the idea ---
-   The dots give way to a bulb in the bubble, and the desk lamp
-   comes on at the same moment. */
 .sc-desk .tbulb { opacity: 0; transform-origin: 50% 60%; }
-/* the bubble popped open during the think and stays up through
-   the idea — without this its parts fall back to hidden and the
-   bulb inside has nothing to appear in */
-.sc-desk.act-idea .think { opacity: 1; }
-.sc-desk.act-idea .think .tb { opacity: 1; scale: 1; }
-.sc-desk.act-idea .td { opacity: 0; transition: opacity 0.2s ease; }
 .sc-desk.act-idea .tbulb {
-  animation: scIdeaPop 0.62s cubic-bezier(0.34, 1.6, 0.64, 1) 0.1s forwards;
+  animation: scIdeaPop 0.62s cubic-bezier(0.34, 1.6, 0.64, 1) 0.15s both;
 }
+.sc-desk.act-sit .tbulb { opacity: 1; scale: 1; }
 @keyframes scIdeaPop {
   from { opacity: 0; scale: 0.3; }
   to   { opacity: 1; scale: 1; }
@@ -226,19 +306,38 @@
   0%, 100% { opacity: 0.35; scale: 0.9; }
   50%      { opacity: 1;    scale: 1.12; }
 }
-/* he straightens up and his head lifts on the realisation */
-.sc-desk.act-idea .fig-stand { animation: scIdeaLift 0.7s cubic-bezier(0.34, 1.5, 0.64, 1) forwards; }
-@keyframes scIdeaLift {
-  0%   { translate: 0 0; }
-  45%  { translate: 0 -7px; }
-  100% { translate: 0 -2px; }
+
+/* ---------- the desk lamp ----------
+   Comes on with the idea, stays on while he sits, and fades out
+   under the transitions on #bulb once he is coding — rather than
+   cutting out the instant the idea act ends. */
+.sc-desk.act-idea #bulb .halo { opacity: 1; animation: scGlow 2.4s ease-in-out infinite; }
+.sc-desk.act-sit #bulb .halo { opacity: 0.9; }
+.sc-desk.act-idea #bulb .glass,
+.sc-desk.act-sit #bulb .glass { fill: #FFE8B0; }
+.sc-desk.act-idea #bulb .fil,
+.sc-desk.act-sit #bulb .fil { stroke: #B96A00; }
+.sc-desk.act-idea #bulb .rays { transform-origin: 50% 50%; animation: scRay 2.4s ease-in-out infinite; }
+.sc-desk.act-idea #bulb .rays line,
+.sc-desk.act-sit #bulb .rays line { stroke: #E8940C; }
+.sc-desk #bulb .halo { transition: opacity 0.8s ease; }
+.sc-desk #bulb .glass { transition: fill 0.8s ease; }
+.sc-desk #bulb .fil { transition: stroke 0.8s ease; }
+.sc-desk #bulb .rays line { transition: stroke 0.8s ease; }
+
+/* Shared with the other scenes (juggle bobs; board, wall and
+   plane ponder). The desk has its own versions above because its
+   acts have to begin and end on exact values; these are the
+   free-running ones. */
+@keyframes scBob {
+  from { translate: 0 0; }
+  to   { translate: 0 -2.5px; }
 }
-.sc-desk.act-idea .fig-stand .headG { animation: scIdeaHead 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) forwards; }
-@keyframes scIdeaHead {
-  from { rotate: -6deg; }
-  to   { rotate: 3deg; }
+@keyframes scPonder {
+  0%, 100% { rotate: 0deg; }
+  30%      { rotate: -7deg; }
+  65%      { rotate: 3deg; }
 }
-.sc-desk.act-idea .armF { animation: scChin 0.4s cubic-bezier(0.5, 0, 0.6, 1) forwards reverse; }
 
 /* --- the code --- */
 .sc-desk .cl { transform-origin: 0% 50%; scale: 0.15 1; }

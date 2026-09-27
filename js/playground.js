@@ -346,7 +346,7 @@
          now, so these are deep links into it rather than four
          separate documents. */
       { ic: 'H', label: 'Go to Home', hint: 'nav', run: () => { location.href = 'index.html'; } },
-      { ic: 'W', label: 'Go to Works', hint: 'nav', run: () => { location.href = 'index.html#works'; } },
+      { ic: 'P', label: 'Go to Projects', hint: 'nav', run: () => { location.href = 'projects.html'; } },
       { ic: 'A', label: 'Go to About', hint: 'nav', run: () => { location.href = 'index.html#about'; } },
       { ic: 'C', label: 'Go to Contact', hint: 'nav', run: () => { location.href = 'index.html#contact'; } },
       { ic: '∿', label: 'Open Wave Shader', hint: 'app', run: () => openApp('waves') },

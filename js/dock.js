@@ -192,6 +192,11 @@
   syncThemes();
   syncLeaves();
 
+  /* theme.js re-applies stored choices to a page that comes back
+     from the back/forward cache or a prerender; the dock's pressed
+     states have to follow or it shows the old selection */
+  window.addEventListener('sohin:prefs', () => { syncModes(); syncThemes(); syncLeaves(); });
+
   /* ---------- Open / close ---------- */
   let open = false;
   let hoverTimer = 0;

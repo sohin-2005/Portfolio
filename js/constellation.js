@@ -141,7 +141,9 @@
       // far side of the ellipse sits back: smaller and fainter
       const depth = 0.5 + 0.5 * Math.sin(b.angle);
       b.s = 0.68 + depth * 0.36;
-      b.o = 0.45 + depth * 0.55;
+      /* the far side of an orbit sinks back, but not so far it
+         disappears: 0.45 at the back read as missing, not distant */
+      b.o = 0.62 + depth * 0.38;
 
       const el = b.el;
       el.style.transform =
@@ -156,7 +158,7 @@
 
     // tether to the hub
     bodies.forEach((b) => {
-      const a = (focused ? (b === focused ? 0.4 : 0.05) : 0.11) * b.o;
+      const a = (focused ? (b === focused ? 0.5 : 0.07) : 0.19) * b.o;
       ctx.strokeStyle = 'rgba(' + ink + ',' + a.toFixed(3) + ')';
       ctx.beginPath();
       ctx.moveTo(cx, cy);
@@ -172,7 +174,7 @@
         if (Math.abs(dx) > LINK_DIST || Math.abs(dy) > LINK_DIST) continue;
         const d = Math.hypot(dx, dy);
         if (d >= LINK_DIST) continue;
-        let al = (1 - d / LINK_DIST) * 0.34 * Math.min(a.o, c.o);
+        let al = (1 - d / LINK_DIST) * 0.48 * Math.min(a.o, c.o);
         if (focused) al *= (a === focused || c === focused) ? 1.6 : 0.18;
         ctx.strokeStyle = 'rgba(' + ink + ',' + al.toFixed(3) + ')';
         ctx.beginPath();

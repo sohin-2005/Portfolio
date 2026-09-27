@@ -73,7 +73,7 @@
   function luma(rgb) { return (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255; }
   function bgRgb() {
     const v = getComputedStyle(document.documentElement).getPropertyValue('--bg-rgb').trim();
-    const p = (v || '236, 236, 236').split(',').map(Number);
+    const p = (v || '255, 255, 255').split(',').map(Number);
     return [p[0], p[1], p[2]];
   }
 

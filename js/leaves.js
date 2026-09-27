@@ -68,5 +68,13 @@
     ORDER: ['ink', 'green'],
     current: function () { return current; },
     apply: function (key) { return apply(key, true); },
+    /* bring this page back in line with what is stored; see the
+       resync in theme.js */
+    sync: function () {
+      let v = null;
+      try { v = localStorage.getItem(KEY); } catch (e) { /* private mode */ }
+      const want = v && TINTS[v] ? v : 'ink';
+      if (want !== current) apply(want, false);
+    },
   };
 })();

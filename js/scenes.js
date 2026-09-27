@@ -6,10 +6,10 @@
    is made. Only pupils and a couple of accents are solid, which
    is what stops a pure outline drawing reading as empty.
 
-   One figure rig, five stories. The home page runs a six-act
+   One figure rig, five stories. The home page runs a seven-act
    loop — walk in, think, get the idea (the desk bulb lights),
-   sit, code, stand — driven by a state machine that swaps a
-   class on the scene root. Timing lives in scenes.css.
+   sit, code, stand, walk off — driven by a state machine that
+   swaps a class on the scene root. Timing lives in scenes.css.
 
    Proportions: the standing build is 213 units from sole to
    crown, the seated build 175 from floor to crown. A seated
@@ -182,13 +182,17 @@
     desk: {
       vb: '0 0 460 320',
       label: 'Sohin walking to his desk, thinking, having an idea, then sitting down to code',
+      /* Durations are matched to css/scenes.css: each act is at
+         least as long as the longest animation in it, so nothing
+         is cut off mid-move when the next act begins. */
       acts: [
-        { name: 'walk',  ms: 4200 },
+        { name: 'walk',  ms: 3900 },
         { name: 'think', ms: 3800 },
         { name: 'idea',  ms: 2200 },
-        { name: 'sit',   ms: 1400 },
+        { name: 'sit',   ms: 1600 },
         { name: 'code',  ms: 8200 },
         { name: 'rise',  ms: 1500 },
+        { name: 'leave', ms: 4100 },
       ],
       svg:
         defs +
@@ -327,10 +331,19 @@
     function next() {
       i = (i + 1) % acts.length;
       acts.forEach((a) => svg.classList.remove('act-' + a.name));
+      /* Removing a class and adding the same one back in one frame
+         is no change at all as far as CSS is concerned, so its
+         animations would not restart. Flush the removal first. */
+      void svg.getBoundingClientRect();
       svg.classList.add('act-' + acts[i].name);
       timer = setTimeout(next, acts[i].ms);
     }
-    function start() { if (!running) { running = true; next(); } }
+    /* Always from the top. Resuming at whichever act was next when
+       the scene scrolled away used to cut him from mid-walk
+       straight to the desk the moment it came back into view; the
+       story opening with him walking in is the one start that has
+       nothing before it to jump from. */
+    function start() { if (!running) { running = true; i = -1; next(); } }
     function stop() { running = false; clearTimeout(timer); }
 
     if ('IntersectionObserver' in window) {

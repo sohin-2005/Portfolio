@@ -29,7 +29,12 @@
   if (!document.body) return;
 
   const REDUCED = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const STORE = 'sohin-ambient';
+  /* versioned for the same reason as the theme key in theme.js:
+     the default changed from Eco to off */
+  const STORE = 'sohin-ambient-v2';
+  const DEFAULT = 'off';
+  /* what the palette was before Night took it over — see syncTheme */
+  const BEFORE = 'sohin-theme-before-night-v2';
 
   /* ---------- Mode table ----------
      hue/sat describe the mood; lLight is the lightness used when
@@ -65,7 +70,7 @@
     return v || fallback;
   }
   function bgIsLight() {
-    const p = cssVar('--bg-rgb', '236, 236, 236').split(',').map(Number);
+    const p = cssVar('--bg-rgb', '255, 255, 255').split(',').map(Number);
     // Rec. 709 luma, good enough to pick a contrast direction
     return (0.2126 * p[0] + 0.7152 * p[1] + 0.0722 * p[2]) > 140;
   }
@@ -268,23 +273,40 @@
     rs.setProperty('--ink-fill', PALETTE.hsl(6, 0.78));
   }
 
-  let themeBeforeNight = null;
-
   /* Night is only worth looking at on a dark ground, so it takes
-     the palette over while it runs and hands it back on exit. */
+     the palette over while it runs and hands it back on exit.
+
+     What to hand back is stored, not held in a variable. It used
+     to live in this page's memory only, while the palette Night
+     switched to was saved for every page — so turning Night on
+     here and off on any other page left that page nothing to give
+     back, and the site stayed on Space everywhere from then on. */
+  function readBefore() {
+    try { return localStorage.getItem(BEFORE); } catch (e) { return null; }
+  }
+  function writeBefore(v) {
+    try {
+      if (v) localStorage.setItem(BEFORE, v);
+      else localStorage.removeItem(BEFORE);
+    } catch (e) { /* private mode */ }
+  }
+
   function syncTheme(key) {
     const T = window.__theme;
     if (!T) return;
     const want = MODES[key] && MODES[key].theme;
     if (want) {
       if (T.current() !== want) {
-        themeBeforeNight = T.current();
+        writeBefore(T.current());
         T.apply(want);
       }
-    } else if (themeBeforeNight) {
-      const back = themeBeforeNight;
-      themeBeforeNight = null;
-      if (T.current() === 'space') T.apply(back);
+    } else {
+      const back = readBefore();
+      if (back) {
+        writeBefore(null);
+        // only if they have not picked another palette meanwhile
+        if (T.current() === 'space') T.apply(back);
+      }
     }
   }
 
@@ -336,17 +358,29 @@
 
   resize();
 
-  let saved = null;
-  try { saved = localStorage.getItem(STORE); } catch (e) { /* private mode */ }
-  if (saved && ALIAS[saved]) saved = ALIAS[saved];
-  // Eco is the house style, so it is what a first-time visitor gets
-  apply(saved && MODES[saved] ? saved : 'eco', false);
+  function stored() {
+    let v = null;
+    try { v = localStorage.getItem(STORE); } catch (e) { /* private mode */ }
+    if (v && ALIAS[v]) v = ALIAS[v];
+    return v && MODES[v] ? v : DEFAULT;
+  }
+
+  /* No scenery until somebody asks for it. The page is the thing;
+     the scenery is an option on the dock, not the first thing a
+     visitor has to look past. */
+  apply(stored(), false);
 
   window.__ambient = {
     MODES: MODES,
     ORDER: ORDER,
     current: function () { return current; },
     apply: function (k) { return apply(k, true); },
+    /* bring this page back in line with what is stored; see the
+       resync in theme.js for when and why */
+    sync: function () {
+      const want = stored();
+      if (want !== current) apply(want, false);
+    },
     retint: paint,                  // called by the dock after a theme swap
     on: function (fn) { if (typeof fn === 'function') listeners.push(fn); },
   };
