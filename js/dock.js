@@ -199,7 +199,6 @@
 
   /* ---------- Open / close ---------- */
   let open = false;
-  let hoverTimer = 0;
 
   function setOpen(v) {
     open = v;
@@ -212,13 +211,9 @@
     setOpen(!open);
   });
 
-  if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    dock.addEventListener('mouseenter', () => { clearTimeout(hoverTimer); setOpen(true); });
-    dock.addEventListener('mouseleave', () => {
-      clearTimeout(hoverTimer);
-      hoverTimer = setTimeout(() => setOpen(false), 380);
-    });
-  }
+  /* Opens on click only. It used to open on hover as well, which
+     meant it sprang open whenever the pointer merely passed near
+     the corner. Click, Escape and a click outside still work. */
 
   document.addEventListener('click', (e) => {
     if (open && !dock.contains(e.target)) setOpen(false);
@@ -226,7 +221,6 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && open) { setOpen(false); toggle.focus(); }
   });
-  dock.addEventListener('focusin', () => setOpen(true));
   dock.addEventListener('focusout', () => {
     setTimeout(() => { if (!dock.contains(document.activeElement)) setOpen(false); }, 0);
   });
